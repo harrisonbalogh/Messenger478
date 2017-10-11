@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C0BB099A1F8D9B2500172855 /* MessengerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB09991F8D9B2500172855 /* MessengerConnection.swift */; };
 		C0D2C4AC1F8D895600704C12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D2C4AB1F8D895600704C12 /* AppDelegate.swift */; };
 		C0D2C4AE1F8D895600704C12 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D2C4AD1F8D895600704C12 /* ViewController.swift */; };
 		C0D2C4B01F8D895600704C12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0D2C4AF1F8D895600704C12 /* Assets.xcassets */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C0BB09991F8D9B2500172855 /* MessengerConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessengerConnection.swift; sourceTree = "<group>"; };
 		C0D2C4A81F8D895600704C12 /* Messenger478.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messenger478.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0D2C4AB1F8D895600704C12 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C0D2C4AD1F8D895600704C12 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -72,10 +74,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C0BB09981F8D9B0B00172855 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				C0BB09991F8D9B2500172855 /* MessengerConnection.swift */,
+			);
+			name = Connection;
+			path = Messenger478;
+			sourceTree = "<group>";
+		};
 		C0D2C49F1F8D895600704C12 = {
 			isa = PBXGroup;
 			children = (
 				C0D2C4AA1F8D895600704C12 /* Messenger478 */,
+				C0BB09981F8D9B0B00172855 /* Connection */,
 				C0D2C4BC1F8D895600704C12 /* Messenger478Tests */,
 				C0D2C4C71F8D895600704C12 /* Messenger478UITests */,
 				C0D2C4A91F8D895600704C12 /* Products */,
@@ -259,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0D2C4AE1F8D895600704C12 /* ViewController.swift in Sources */,
+				C0BB099A1F8D9B2500172855 /* MessengerConnection.swift in Sources */,
 				C0D2C4AC1F8D895600704C12 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -505,6 +518,7 @@
 				C0D2C4CF1F8D895600704C12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C0D2C4D01F8D895600704C12 /* Build configuration list for PBXNativeTarget "Messenger478Tests" */ = {
 			isa = XCConfigurationList;
@@ -513,6 +527,7 @@
 				C0D2C4D21F8D895600704C12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C0D2C4D31F8D895600704C12 /* Build configuration list for PBXNativeTarget "Messenger478UITests" */ = {
 			isa = XCConfigurationList;
@@ -521,6 +536,7 @@
 				C0D2C4D51F8D895600704C12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
