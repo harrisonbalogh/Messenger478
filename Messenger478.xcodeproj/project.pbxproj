@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92AF0CD143EE260CCF11C8A8 /* libPods-Messenger478.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B79E18A5018E8A1068D5DB /* libPods-Messenger478.a */; };
+		C002E6B21F9D34F600FB46BB /* public.pem in Resources */ = {isa = PBXBuildFile; fileRef = C002E6B01F9D34F600FB46BB /* public.pem */; };
+		C065D46B1F9DD88000A29FCD /* Enc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C065D4691F9DD88000A29FCD /* Enc.cpp */; };
 		C0BB099A1F8D9B2500172855 /* MessengerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB09991F8D9B2500172855 /* MessengerConnection.swift */; };
+		C0BF8D941F99C3AC006401D1 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = C0BF8D931F99C3AC006401D1 /* Podfile */; };
 		C0D2C4AC1F8D895600704C12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D2C4AB1F8D895600704C12 /* AppDelegate.swift */; };
 		C0D2C4AE1F8D895600704C12 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D2C4AD1F8D895600704C12 /* ViewController.swift */; };
 		C0D2C4B01F8D895600704C12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0D2C4AF1F8D895600704C12 /* Assets.xcassets */; };
@@ -34,7 +38,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		82927E19A2FB422CBBD21FEC /* Pods-Messenger478.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messenger478.release.xcconfig"; path = "Messenger478/Pods/Target Support Files/Pods-Messenger478/Pods-Messenger478.release.xcconfig"; sourceTree = "<group>"; };
+		C002E6B01F9D34F600FB46BB /* public.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = public.pem; sourceTree = "<group>"; };
+		C06375741F999D830086D859 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../openssl_x86_64/libcrypto.a; sourceTree = "<group>"; };
+		C06375761F99A7EE0086D859 /* libcrypto.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.1.0.0.dylib; path = ../../libcrypto.1.0.0.dylib; sourceTree = "<group>"; };
+		C063757A1F99A8B50086D859 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../openssl_i386/libcrypto.a; sourceTree = "<group>"; };
+		C063757C1F99A8C50086D859 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../openssl_x86_64/libssl.a; sourceTree = "<group>"; };
+		C065D4691F9DD88000A29FCD /* Enc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Enc.cpp; sourceTree = "<group>"; };
+		C065D46A1F9DD88000A29FCD /* Enc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Enc.hpp; sourceTree = "<group>"; };
 		C0BB09991F8D9B2500172855 /* MessengerConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessengerConnection.swift; sourceTree = "<group>"; };
+		C0BF8D8E1F99C233006401D1 /* Messenger478-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Messenger478-Bridging-Header.h"; sourceTree = "<group>"; };
+		C0BF8D931F99C3AC006401D1 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C0D2C4A81F8D895600704C12 /* Messenger478.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messenger478.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0D2C4AB1F8D895600704C12 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C0D2C4AD1F8D895600704C12 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +61,8 @@
 		C0D2C4C41F8D895600704C12 /* Messenger478UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Messenger478UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0D2C4C81F8D895600704C12 /* Messenger478UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messenger478UITests.swift; sourceTree = "<group>"; };
 		C0D2C4CA1F8D895600704C12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DEAC95EC6DBBB70C22537F78 /* Pods-Messenger478.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messenger478.debug.xcconfig"; path = "Messenger478/Pods/Target Support Files/Pods-Messenger478/Pods-Messenger478.debug.xcconfig"; sourceTree = "<group>"; };
+		E1B79E18A5018E8A1068D5DB /* libPods-Messenger478.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Messenger478.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92AF0CD143EE260CCF11C8A8 /* libPods-Messenger478.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +91,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8FE105314C293A5B626D54FD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DEAC95EC6DBBB70C22537F78 /* Pods-Messenger478.debug.xcconfig */,
+				82927E19A2FB422CBBD21FEC /* Pods-Messenger478.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C06375731F999D830086D859 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C063757C1F99A8C50086D859 /* libssl.a */,
+				C063757A1F99A8B50086D859 /* libcrypto.a */,
+				C06375761F99A7EE0086D859 /* libcrypto.1.0.0.dylib */,
+				C06375741F999D830086D859 /* libcrypto.a */,
+				E1B79E18A5018E8A1068D5DB /* libPods-Messenger478.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C0BB09981F8D9B0B00172855 /* Connection */ = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +129,8 @@
 				C0D2C4BC1F8D895600704C12 /* Messenger478Tests */,
 				C0D2C4C71F8D895600704C12 /* Messenger478UITests */,
 				C0D2C4A91F8D895600704C12 /* Products */,
+				C06375731F999D830086D859 /* Frameworks */,
+				8FE105314C293A5B626D54FD /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,11 +147,16 @@
 		C0D2C4AA1F8D895600704C12 /* Messenger478 */ = {
 			isa = PBXGroup;
 			children = (
+				C0D2C4AF1F8D895600704C12 /* Assets.xcassets */,
 				C0D2C4AB1F8D895600704C12 /* AppDelegate.swift */,
 				C0D2C4AD1F8D895600704C12 /* ViewController.swift */,
-				C0D2C4AF1F8D895600704C12 /* Assets.xcassets */,
 				C0D2C4B11F8D895600704C12 /* Main.storyboard */,
 				C0D2C4B41F8D895600704C12 /* Info.plist */,
+				C0BF8D8E1F99C233006401D1 /* Messenger478-Bridging-Header.h */,
+				C0BF8D931F99C3AC006401D1 /* Podfile */,
+				C002E6B01F9D34F600FB46BB /* public.pem */,
+				C065D4691F9DD88000A29FCD /* Enc.cpp */,
+				C065D46A1F9DD88000A29FCD /* Enc.hpp */,
 			);
 			path = Messenger478;
 			sourceTree = "<group>";
@@ -141,9 +186,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C0D2C4CD1F8D895600704C12 /* Build configuration list for PBXNativeTarget "Messenger478" */;
 			buildPhases = (
+				818DE15F569DE763009BDB61 /* [CP] Check Pods Manifest.lock */,
 				C0D2C4A41F8D895600704C12 /* Sources */,
 				C0D2C4A51F8D895600704C12 /* Frameworks */,
 				C0D2C4A61F8D895600704C12 /* Resources */,
+				38601B7CEE729D25A718AB98 /* [CP] Embed Pods Frameworks */,
+				7C8DB64DD75FB354E08A6BF5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -203,6 +251,7 @@
 					C0D2C4A71F8D895600704C12 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = BY29N4YX97;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					C0D2C4B81F8D895600704C12 = {
@@ -244,8 +293,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0BF8D941F99C3AC006401D1 /* Podfile in Resources */,
 				C0D2C4B01F8D895600704C12 /* Assets.xcassets in Resources */,
 				C0D2C4B31F8D895600704C12 /* Main.storyboard in Resources */,
+				C002E6B21F9D34F600FB46BB /* public.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +316,57 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		38601B7CEE729D25A718AB98 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Messenger478/Pods/Target Support Files/Pods-Messenger478/Pods-Messenger478-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7C8DB64DD75FB354E08A6BF5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Messenger478/Pods/Target Support Files/Pods-Messenger478/Pods-Messenger478-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		818DE15F569DE763009BDB61 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Messenger478-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C0D2C4A41F8D895600704C12 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -272,6 +374,7 @@
 			files = (
 				C0D2C4AE1F8D895600704C12 /* ViewController.swift in Sources */,
 				C0BB099A1F8D9B2500172855 /* MessengerConnection.swift in Sources */,
+				C065D46B1F9DD88000A29FCD /* Enc.cpp in Sources */,
 				C0D2C4AC1F8D895600704C12 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,6 +468,7 @@
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -406,34 +510,48 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
 		C0D2C4CE1F8D895600704C12 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DEAC95EC6DBBB70C22537F78 /* Pods-Messenger478.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = BY29N4YX97;
 				INFOPLIST_FILE = Messenger478/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = HB.Messenger478;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Messenger478/Messenger478-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
 		C0D2C4CF1F8D895600704C12 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82927E19A2FB422CBBD21FEC /* Pods-Messenger478.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = BY29N4YX97;
 				INFOPLIST_FILE = Messenger478/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = HB.Messenger478;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Messenger478/Messenger478-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};

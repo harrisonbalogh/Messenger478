@@ -1,0 +1,4 @@
+target 'Messenger478' do
+    pod 'OpenSSL-Universal', '~> 1.0'
+    project '/Users/harrisonbalogh/Developer/Messenger478/Messenger478.xcodeproj'
+end
