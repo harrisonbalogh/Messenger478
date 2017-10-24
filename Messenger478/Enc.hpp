@@ -13,3 +13,15 @@
 
 
 #endif /* Enc_hpp */
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+    void myEncYeahWoo();
+    
+
+#ifdef __cplusplus
+}
+#endif

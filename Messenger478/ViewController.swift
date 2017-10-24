@@ -35,12 +35,41 @@ class ViewController: NSViewController {
 
     @IBAction func action_encryptTextField(_ sender: NSTextField) {
         
+        myEncYeahWoo()
+        
+        // Get Public KEY =======
+        
         let readPublicKey = getPublicKey()
         print(readPublicKey)
+        let cString = readPublicKey.cString(using: .ascii)
+        var keykey = UnsafeMutablePointer<Int8>.allocate(capacity: Int(strlen(readPublicKey)))
+        keykey.initialize(to: 0)
+        defer {
+            keykey.deinitialize(count: Int(strlen(readPublicKey)))
+            keykey.deallocate(capacity: Int(strlen(readPublicKey)))
+        }
+
+        keykey = strncpy(keykey, readPublicKey, Int(strlen(readPublicKey)))
         
-        let publicBIO: UnsafeMutablePointer<BIO> = BIO_new_mem_buf(readPublicKey, -1)
+        var rawKeyKey = UnsafeMutableRawPointer(keykey)
+        
+        let publicBIO: UnsafeMutablePointer<BIO> = BIO_new_mem_buf(rawKeyKey, -1)
+        
+        print(keykey)
+        
+//        let str = UnsafeMutablePointer<CChar>.allocate(capacity: Int(strlen(readPublicKey)))
+//        str.initialize(to: 0)
+//        
+//        let bufferPointer = UnsafeBufferPointer(start: rawKeyKey, count: Int(strlen(readPublicKey)))
+//        for (index, value) in bufferPointer.enumerated() {
+//            print("value \(index): \(value)")
+//        }
+
+        
+        // Get RSA from Public
         
         if let rsa_publicKey = PEM_read_bio_RSAPublicKey(publicBIO, nil, nil, nil) {
+
             // success
         } else {
             ERR_load_crypto_strings()
@@ -58,11 +87,7 @@ class ViewController: NSViewController {
         
         
         
-//        defer {
-//            str.deinitialize(count: Int(strlen(publicKey)))
-//            str.deallocate(capacity: Int(strlen(publicKey)))
-//        }
-//        
+//
 //        enc()
 //        
 //        let publicBIO: UnsafeMutablePointer<BIO> = BIO_new_mem_buf(publicKey, -1)

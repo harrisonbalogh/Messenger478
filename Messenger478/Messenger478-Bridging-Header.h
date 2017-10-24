@@ -11,5 +11,5 @@
 #import <CommonCrypto/CommonCrypto.h>
 //#import "Enc.cpp"
 
-void enc();
+void myEncYeahWoo();
 
