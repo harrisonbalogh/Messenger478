@@ -35,6 +35,29 @@ class ViewController: NSViewController {
 
     @IBAction func action_encryptTextField(_ sender: NSTextField) {
         
+        let readPublicKey = getPublicKey()
+        print(readPublicKey)
+        
+        let publicBIO: UnsafeMutablePointer<BIO> = BIO_new_mem_buf(readPublicKey, -1)
+        
+        if let rsa_publicKey = PEM_read_bio_RSAPublicKey(publicBIO, nil, nil, nil) {
+            // success
+        } else {
+            ERR_load_crypto_strings()
+            
+            let buffer = UnsafeMutablePointer<Int8>.allocate(capacity: 500)
+            buffer.initialize(to: 0, count: 500)
+            defer {
+                buffer.deinitialize(count: 500)
+                buffer.deallocate(capacity: 500)
+            }
+            ERR_error_string(ERR_get_error(), buffer)
+            print(String(cString: buffer))
+        }
+
+        
+        
+        
 //        defer {
 //            str.deinitialize(count: Int(strlen(publicKey)))
 //            str.deallocate(capacity: Int(strlen(publicKey)))
@@ -63,20 +86,6 @@ class ViewController: NSViewController {
         //            print("value \(index): \(value)")
         //        }
         
-        //        if let rsa_publicKey = PEM_read_bio_RSAPublicKey(publicBIO, nil, nil, nil) {
-        // success
-        //        } else {
-        //            ERR_load_crypto_strings()
-        //
-        //            let buffer = UnsafeMutablePointer<Int8>.allocate(capacity: 500)
-        //            buffer.initialize(to: 0, count: 500)
-        //            defer {
-        //                buffer.deinitialize(count: 500)
-        //                buffer.deallocate(capacity: 500)
-        //            }
-        //            ERR_error_string(ERR_get_error(), buffer)
-        //            print(String(cString: buffer))
-        //        }
         //        BIO_free(publicBIO)
         
         //        readPublicKey.getBytes(&<#T##buffer: [UInt8]##[UInt8]#>, maxLength: readPublicKey.characters.count, usedLength: <#T##UnsafeMutablePointer<Int>#>, encoding: .utf8, range: <#T##Range<String.Index>#>, remaining: <#T##UnsafeMutablePointer<Range<String.Index>>#>)
@@ -122,15 +131,15 @@ class ViewController: NSViewController {
 //        let publicKey = getPublicKey()
 //        print("'\(publicKey)'")
 
-        let publicKey = "Hello World"
-        
-        let str = UnsafeMutablePointer<CChar>.allocate(capacity: Int(strlen(publicKey)))
-        str.initialize(to: 0)
-        
-        let bufferPointer = UnsafeBufferPointer(start: str, count: Int(strlen(publicKey)))
-        for (index, value) in bufferPointer.enumerated() {
-            print("value \(index): \(value)")
-        }
+//        let publicKey = "Hello World"
+//        
+//        let str = UnsafeMutablePointer<CChar>.allocate(capacity: Int(strlen(publicKey)))
+//        str.initialize(to: 0)
+//        
+//        let bufferPointer = UnsafeBufferPointer(start: str, count: Int(strlen(publicKey)))
+//        for (index, value) in bufferPointer.enumerated() {
+//            print("value \(index): \(value)")
+//        }
     }
 
     func prng(keysize: Int) -> Int {
