@@ -11,15 +11,14 @@ import Security
 
 class ViewController: NSViewController {
 
-<<<<<<< HEAD
     @IBOutlet weak var textfield_message: NSTextField!
     @IBOutlet weak var textField_encrypted: NSTextField!
 
-=======
+
     enum tag_error: Error {
         case InvalidInput(String)
     }
->>>>>>> origin/master
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,8 +32,72 @@ class ViewController: NSViewController {
         }
     }
 
-<<<<<<< HEAD
+
     @IBAction func action_encryptTextField(_ sender: NSTextField) {
+        
+//        defer {
+//            str.deinitialize(count: Int(strlen(publicKey)))
+//            str.deallocate(capacity: Int(strlen(publicKey)))
+//        }
+//        
+//        enc()
+//        
+//        let publicBIO: UnsafeMutablePointer<BIO> = BIO_new_mem_buf(publicKey, -1)
+        
+        //        let message = sender.stringValue
+        //        let data = message.data(using: String.Encoding.utf8)
+        
+        // Get Public Key
+        //        let readPublicKey = getPublicKey()
+        //        print(readPublicKey)
+        //        var publicKey = UnsafeMutablePointer<Int>.allocate(capacity: readPublicKey.characters.count)
+        //        var pubKey = [UInt8](repeating: 0, count: readPublicKey.characters.count)
+        //        var remainder = UnsafeMutablePointer<Range<String.Index>>.allocate(capacity: 20)
+        //        remainder.initialize(to: readPublicKey.startIndex..<readPublicKey.endIndex)
+        //        let _ = readPublicKey.getBytes(&pubKey, maxLength: readPublicKey.characters.count, usedLength: publicKey, encoding: .utf8, range: readPublicKey.startIndex..<readPublicKey.endIndex, remaining: remainder)
+        //        print(pubKey)
+        
+        
+        //        let bufferPointer = UnsafeBufferPointer(start: publicBIO, count: readPublicKey.characters.count)
+        //        for (index, value) in bufferPointer.enumerated() {
+        //            print("value \(index): \(value)")
+        //        }
+        
+        //        if let rsa_publicKey = PEM_read_bio_RSAPublicKey(publicBIO, nil, nil, nil) {
+        // success
+        //        } else {
+        //            ERR_load_crypto_strings()
+        //
+        //            let buffer = UnsafeMutablePointer<Int8>.allocate(capacity: 500)
+        //            buffer.initialize(to: 0, count: 500)
+        //            defer {
+        //                buffer.deinitialize(count: 500)
+        //                buffer.deallocate(capacity: 500)
+        //            }
+        //            ERR_error_string(ERR_get_error(), buffer)
+        //            print(String(cString: buffer))
+        //        }
+        //        BIO_free(publicBIO)
+        
+        //        readPublicKey.getBytes(&<#T##buffer: [UInt8]##[UInt8]#>, maxLength: readPublicKey.characters.count, usedLength: <#T##UnsafeMutablePointer<Int>#>, encoding: .utf8, range: <#T##Range<String.Index>#>, remaining: <#T##UnsafeMutablePointer<Range<String.Index>>#>)
+        //        let ptr: UnsafeMutablePointer<Character> = readPublicKey.getBytes(&<#T##buffer: [UInt8]##[UInt8]#>, maxLength: <#T##Int#>, usedLength: <#T##UnsafeMutablePointer<Int>#>, encoding: <#T##String.Encoding#>, range: <#T##Range<String.Index>#>, remaining: <#T##UnsafeMutablePointer<Range<String.Index>>#>)
+        //        let bioPub: UnsafeMutablePointer<BIO> = BIO_new_mem_buf(publicKey, Int32(publicKey.characters.count))
+        //        let rsaPubKey: UnsafeMutablePointer<RSA> = PEM_read_bio_RSA_PUBKEY(bioPub, nil, nil, nil)
+        //        BIO_free(bioPub)
+        
+        //        print(rsaPubKey)
+        
+        // Get Private Key
+        //        let privateKey = getPrivateKey()
+        //        print(privateKey)
+        //        let bioPri = BIO_new_mem_buf(privateKey, Int32(privateKey.characters.count))
+        //        let rsaPriKey = PEM_read_bio_RSAPrivateKey(bioPri, nil, nil, nil)
+        //        
+        //        BIO_free(bioPri)
+        //
+        // Buffer
+        //        let maxSize = RSA_size(rsaPubKey)
+        
         
 //        let context = UnsafeMutablePointer<CC_MD5_CTX>.allocate(capacity: 1)
 //        var digest = [UInt8](repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
@@ -61,8 +124,6 @@ class ViewController: NSViewController {
 
         let publicKey = "Hello World"
         
-
-        
         let str = UnsafeMutablePointer<CChar>.allocate(capacity: Int(strlen(publicKey)))
         str.initialize(to: 0)
         
@@ -70,7 +131,8 @@ class ViewController: NSViewController {
         for (index, value) in bufferPointer.enumerated() {
             print("value \(index): \(value)")
         }
-=======
+    }
+
     func prng(keysize: Int) -> Int {
         return 0
     }
@@ -105,74 +167,7 @@ class ViewController: NSViewController {
         //m = AESd(c, IV, key, CBC)
         return plaintext
     }
-}
->>>>>>> origin/master
 
-        
-        defer {
-            str.deinitialize(count: Int(strlen(publicKey)))
-            str.deallocate(capacity: Int(strlen(publicKey)))
-        }
-        
-        enc()
-        
-        let publicBIO: UnsafeMutablePointer<BIO> = BIO_new_mem_buf(publicKey, -1)
-        
-//        let message = sender.stringValue
-//        let data = message.data(using: String.Encoding.utf8)
-        
-        // Get Public Key
-//        let readPublicKey = getPublicKey()
-//        print(readPublicKey)
-//        var publicKey = UnsafeMutablePointer<Int>.allocate(capacity: readPublicKey.characters.count)
-//        var pubKey = [UInt8](repeating: 0, count: readPublicKey.characters.count)
-//        var remainder = UnsafeMutablePointer<Range<String.Index>>.allocate(capacity: 20)
-//        remainder.initialize(to: readPublicKey.startIndex..<readPublicKey.endIndex)
-//        let _ = readPublicKey.getBytes(&pubKey, maxLength: readPublicKey.characters.count, usedLength: publicKey, encoding: .utf8, range: readPublicKey.startIndex..<readPublicKey.endIndex, remaining: remainder)
-//        print(pubKey)
-
-        
-//        let bufferPointer = UnsafeBufferPointer(start: publicBIO, count: readPublicKey.characters.count)
-//        for (index, value) in bufferPointer.enumerated() {
-//            print("value \(index): \(value)")
-//        }
-        
-//        if let rsa_publicKey = PEM_read_bio_RSAPublicKey(publicBIO, nil, nil, nil) {
-            // success
-//        } else {
-//            ERR_load_crypto_strings()
-//            
-//            let buffer = UnsafeMutablePointer<Int8>.allocate(capacity: 500)
-//            buffer.initialize(to: 0, count: 500)
-//            defer {
-//                buffer.deinitialize(count: 500)
-//                buffer.deallocate(capacity: 500)
-//            }
-//            ERR_error_string(ERR_get_error(), buffer)
-//            print(String(cString: buffer))
-//        }
-//        BIO_free(publicBIO)
-        
-//        readPublicKey.getBytes(&<#T##buffer: [UInt8]##[UInt8]#>, maxLength: readPublicKey.characters.count, usedLength: <#T##UnsafeMutablePointer<Int>#>, encoding: .utf8, range: <#T##Range<String.Index>#>, remaining: <#T##UnsafeMutablePointer<Range<String.Index>>#>)
-//        let ptr: UnsafeMutablePointer<Character> = readPublicKey.getBytes(&<#T##buffer: [UInt8]##[UInt8]#>, maxLength: <#T##Int#>, usedLength: <#T##UnsafeMutablePointer<Int>#>, encoding: <#T##String.Encoding#>, range: <#T##Range<String.Index>#>, remaining: <#T##UnsafeMutablePointer<Range<String.Index>>#>)
-//        let bioPub: UnsafeMutablePointer<BIO> = BIO_new_mem_buf(publicKey, Int32(publicKey.characters.count))
-//        let rsaPubKey: UnsafeMutablePointer<RSA> = PEM_read_bio_RSA_PUBKEY(bioPub, nil, nil, nil)
-//        BIO_free(bioPub)
-        
-//        print(rsaPubKey)
-        
-        // Get Private Key
-//        let privateKey = getPrivateKey()
-//        print(privateKey)
-//        let bioPri = BIO_new_mem_buf(privateKey, Int32(privateKey.characters.count))
-//        let rsaPriKey = PEM_read_bio_RSAPrivateKey(bioPri, nil, nil, nil)
-//        
-//        BIO_free(bioPri)
-//        
-        // Buffer
-//        let maxSize = RSA_size(rsaPubKey)
-        
-    }
     
     func getPublicKey() -> String {
 //        let startString = "-----BEGIN PUBLIC KEY-----"
