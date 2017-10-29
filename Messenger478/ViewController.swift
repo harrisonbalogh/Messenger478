@@ -12,8 +12,13 @@ import Security
 class ViewController: NSViewController {
 
     @IBOutlet weak var textfield_message: NSTextField!
-    @IBOutlet weak var textField_encrypted: NSTextField!
-
+    
+    @IBOutlet weak var encryptedTextViewCenteredLabel: NSTextField!
+    @IBOutlet var textView_encrypted: NSTextView!
+    @IBOutlet weak var encryptButton: NSButton!
+    @IBOutlet weak var copyResultButton: NSButton!
+    
+    var encrypting = true
 
     enum tag_error: Error {
         case InvalidInput(String)
@@ -25,233 +30,365 @@ class ViewController: NSViewController {
         // Do any additional setup after loading the view.
         
     }
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        
+        encryptedTextViewCenteredLabel.alphaValue = 0
+    }
 
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
         }
     }
+    
+    @IBAction func action_encryptButton(_ sender: NSButton) {
+        action_encryptTextField(textfield_message)
+    }
+    @IBAction func action_copyResultButton(_ sender: NSButton) {
+        
+    }
 
-
+    var holdData: Data!
     @IBAction func action_encryptTextField(_ sender: NSTextField) {
         
-        myEncYeahWoo()
+        // Get message to encrypt ==============================================
         
-        // Get Public KEY =======
-        
-        let readPublicKey = getPublicKey()
-        print(readPublicKey)
-        let cString = readPublicKey.cString(using: .ascii)
-        var keykey = UnsafeMutablePointer<Int8>.allocate(capacity: Int(strlen(readPublicKey)))
-        keykey.initialize(to: 0)
+        var iv = UnsafeMutablePointer<UInt8>.allocate(capacity: 16)
+        iv.initialize(to: 0)
         defer {
-            keykey.deinitialize(count: Int(strlen(readPublicKey)))
-            keykey.deallocate(capacity: Int(strlen(readPublicKey)))
+            // defer block is called once execution leaves current scope
+            iv.deinitialize(count: 16)
+            iv.deallocate(capacity: 16)
         }
+        if RAND_bytes(iv, 16) != 1 {
+            // failed to get CSPRNG
+            return
+        }
+        holdData = sender.stringValue.data(using: .utf8)!
+        let data = sender.stringValue.data(using: .utf8)!
+        let message = UnsafeMutablePointer<UInt8>.allocate(capacity: 16 + data.count)
+        let dataCast = [UInt8](data)
+        message.initialize(to: 0, count: 16 + data.count)
+        defer {
+            message.deinitialize(count: 16 + data.count)
+            message.deallocate(capacity: 16 + data.count)
+        }
+        // Prefix the IV to the message (in bytes)
+        for index in 0..<16 {
+            print("IV \(index): \(iv.advanced(by: index).pointee)")
+            message.advanced(by: index).pointee = iv.advanced(by: index).pointee
+        }
+        for index in 16..<(data.count+16) {
+            message.advanced(by: index).pointee = dataCast[index - 16]
+            print("Original message \(index): \(message.advanced(by: index).pointee)")
+        }
+        
+        // Store encrypted results =============================================
+        
+        var outMessage = UnsafeMutablePointer<UInt8>.allocate(capacity: 16 + data.count)
+        outMessage.initialize(to: 0)
+        defer {
+            outMessage.deinitialize(count: 16 + data.count)
+            outMessage.deallocate(capacity: 16 + data.count)
+        }
+        
+        var outMAC = UnsafeMutablePointer<UInt8>.allocate(capacity: 500)
+        outMAC.initialize(to: 0)
+        defer {
+            outMAC.deinitialize(count: 500)
+            outMAC.deallocate(capacity: 500)
+        }
+        
+        var hmacLength = UnsafeMutablePointer<UInt32>.allocate(capacity: 1)
+        hmacLength.initialize(to: 0)
+        defer {
+            hmacLength.deinitialize(count: 1)
+            hmacLength.deallocate(capacity: 1)
+        }
+        
+        var outKeys = UnsafeMutablePointer<UInt8>.allocate(capacity: Int(RSA_size(publicRSAKey())))
+        outKeys.initialize(to: 0)
+        defer {
+            outKeys.deinitialize(count: Int(RSA_size(publicRSAKey())))
+            outKeys.deallocate(capacity: Int(RSA_size(publicRSAKey())))
+        }
+        
+        var rsaEncKeysLength = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
+        rsaEncKeysLength.initialize(to: 0)
+        defer {
+            rsaEncKeysLength.deinitialize(count: 1)
+            rsaEncKeysLength.deallocate(capacity: 1)
+        }
+        
 
-        keykey = strncpy(keykey, readPublicKey, Int(strlen(readPublicKey)))
-        
-        var rawKeyKey = UnsafeMutableRawPointer(keykey)
-        
-        let publicBIO: UnsafeMutablePointer<BIO> = BIO_new_mem_buf(rawKeyKey, -1)
-        
-        print(keykey)
-        
-//        let str = UnsafeMutablePointer<CChar>.allocate(capacity: Int(strlen(readPublicKey)))
-//        str.initialize(to: 0)
-//        
-//        let bufferPointer = UnsafeBufferPointer(start: rawKeyKey, count: Int(strlen(readPublicKey)))
-//        for (index, value) in bufferPointer.enumerated() {
-//            print("value \(index): \(value)")
-//        }
+        encrypt(sender, message: message, messageLength: 16 + data.count,
+                encryptedMessage: outMessage,
+                encryptedKeys: outKeys,
+                rsaEncKeysLength: rsaEncKeysLength,
+                hmac: outMAC,
+                hmacLength: hmacLength)
 
+        decrypt(sender, dataLength: 16 + data.count,
+                encryptedMessage: outMessage,
+                encryptedKeys: outKeys,
+                rsaEncKeysLength: rsaEncKeysLength,
+                hmac: outMAC,
+                hmacLength: hmacLength)
         
-        // Get RSA from Public
-        
-        if let rsa_publicKey = PEM_read_bio_RSAPublicKey(publicBIO, nil, nil, nil) {
-
-            // success
-        } else {
-            ERR_load_crypto_strings()
+    }
+    
+    func encrypt(_ sender: NSTextField, message: UnsafePointer<UInt8>, messageLength: Int,
+                 encryptedMessage out: UnsafeMutablePointer<UInt8>,
+                 encryptedKeys keys: UnsafeMutablePointer<UInt8>,
+                 rsaEncKeysLength: UnsafeMutablePointer<Int32>,
+                 hmac: UnsafeMutablePointer<UInt8>,
+                 hmacLength: UnsafeMutablePointer<UInt32>) {
+        if let rsa_publicKey = publicRSAKey() {
             
-            let buffer = UnsafeMutablePointer<Int8>.allocate(capacity: 500)
-            buffer.initialize(to: 0, count: 500)
+            // Create AES and IV keys ===========================================
+            
+            var aesKey = UnsafeMutablePointer<UInt8>.allocate(capacity: 32)
+            aesKey.initialize(to: 0)
             defer {
-                buffer.deinitialize(count: 500)
-                buffer.deallocate(capacity: 500)
+                // defer block is called once execution leaves current scope
+                aesKey.deinitialize(count: 32)
+                aesKey.deallocate(capacity: 32)
             }
-            ERR_error_string(ERR_get_error(), buffer)
-            print(String(cString: buffer))
-        }
-
-        
-        
-        
-//
-//        enc()
-//        
-//        let publicBIO: UnsafeMutablePointer<BIO> = BIO_new_mem_buf(publicKey, -1)
-        
-        //        let message = sender.stringValue
-        //        let data = message.data(using: String.Encoding.utf8)
-        
-        // Get Public Key
-        //        let readPublicKey = getPublicKey()
-        //        print(readPublicKey)
-        //        var publicKey = UnsafeMutablePointer<Int>.allocate(capacity: readPublicKey.characters.count)
-        //        var pubKey = [UInt8](repeating: 0, count: readPublicKey.characters.count)
-        //        var remainder = UnsafeMutablePointer<Range<String.Index>>.allocate(capacity: 20)
-        //        remainder.initialize(to: readPublicKey.startIndex..<readPublicKey.endIndex)
-        //        let _ = readPublicKey.getBytes(&pubKey, maxLength: readPublicKey.characters.count, usedLength: publicKey, encoding: .utf8, range: readPublicKey.startIndex..<readPublicKey.endIndex, remaining: remainder)
-        //        print(pubKey)
-        
-        
-        //        let bufferPointer = UnsafeBufferPointer(start: publicBIO, count: readPublicKey.characters.count)
-        //        for (index, value) in bufferPointer.enumerated() {
-        //            print("value \(index): \(value)")
-        //        }
-        
-        //        BIO_free(publicBIO)
-        
-        //        readPublicKey.getBytes(&<#T##buffer: [UInt8]##[UInt8]#>, maxLength: readPublicKey.characters.count, usedLength: <#T##UnsafeMutablePointer<Int>#>, encoding: .utf8, range: <#T##Range<String.Index>#>, remaining: <#T##UnsafeMutablePointer<Range<String.Index>>#>)
-        //        let ptr: UnsafeMutablePointer<Character> = readPublicKey.getBytes(&<#T##buffer: [UInt8]##[UInt8]#>, maxLength: <#T##Int#>, usedLength: <#T##UnsafeMutablePointer<Int>#>, encoding: <#T##String.Encoding#>, range: <#T##Range<String.Index>#>, remaining: <#T##UnsafeMutablePointer<Range<String.Index>>#>)
-        //        let bioPub: UnsafeMutablePointer<BIO> = BIO_new_mem_buf(publicKey, Int32(publicKey.characters.count))
-        //        let rsaPubKey: UnsafeMutablePointer<RSA> = PEM_read_bio_RSA_PUBKEY(bioPub, nil, nil, nil)
-        //        BIO_free(bioPub)
-        
-        //        print(rsaPubKey)
-        
-        // Get Private Key
-        //        let privateKey = getPrivateKey()
-        //        print(privateKey)
-        //        let bioPri = BIO_new_mem_buf(privateKey, Int32(privateKey.characters.count))
-        //        let rsaPriKey = PEM_read_bio_RSAPrivateKey(bioPri, nil, nil, nil)
-        //        
-        //        BIO_free(bioPri)
-        //
-        // Buffer
-        //        let maxSize = RSA_size(rsaPubKey)
-        
-        
-//        let context = UnsafeMutablePointer<CC_MD5_CTX>.allocate(capacity: 1)
-//        var digest = [UInt8](repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
-//        CC_MD5_Init(context)
-//        CC_MD5_Update(context, sender.stringValue,
-//                      CC_LONG(sender.stringValue.lengthOfBytes(using: String.Encoding.utf8)))
-//        CC_MD5_Final(&digest, context)
-//        context.deallocate(capacity: 1)
-//        var hexString = ""
-//        for byte in digest {
-//            hexString += String(format:"%02x", byte)
-//        }
-//        textField_encrypted.stringValue = hexString
-//        
-//        if encrypting {
+            RAND_bytes(aesKey, 32)
+            
+            var aesEncKey = UnsafeMutablePointer<AES_KEY>.allocate(capacity: MemoryLayout<AES_KEY>.size)
+            defer {
+                // defer block is called once execution leaves current scope
+                aesEncKey.deallocate(capacity: MemoryLayout<AES_KEY>.size)
+            }
+            AES_set_encrypt_key(aesKey, 256, aesEncKey)
+            
+            // Encrypt message =====================================================
+            
+            let _ = AES_encrypt(message, out, aesEncKey)
+            
+            // Generate HMAC integrity tag =========================================
+            
+            // HMAC key
+            var hmacKey = UnsafeMutablePointer<UInt8>.allocate(capacity: 32)
+            hmacKey.initialize(to: 0)
+            defer {
+                hmacKey.deinitialize(count: 32)
+                hmacKey.deallocate(capacity: 32)
+            }
+            RAND_bytes(hmacKey, 32)
+            
+            // HMAC context
+            let hmacCtx = UnsafeMutablePointer<HMAC_CTX>.allocate(capacity: MemoryLayout<HMAC_CTX>.size)
+            defer {
+                hmacCtx.deallocate(capacity: MemoryLayout<HMAC_CTX>.size)
+            }
+            HMAC_CTX_init(hmacCtx)
+            
+            // Generate HMAC
+            HMAC(EVP_sha256(), hmacKey, 32, out, messageLength, hmac, hmacLength)
+            HMAC_CTX_cleanup(hmacCtx)
+            
+            // Concat keys ========================================================
+            
+            var keys_AES_HMAC = UnsafeMutablePointer<UInt8>.allocate(capacity: 64)
+            keys_AES_HMAC.initialize(to: 0, count: 64)
+            defer {
+                // defer block is called once execution leaves current scope
+                keys_AES_HMAC.deinitialize(count: 64)
+                keys_AES_HMAC.deallocate(capacity: 64)
+            }
+            for index in 0..<32 {
+                keys_AES_HMAC.advanced(by: index).pointee = aesKey.advanced(by: index).pointee
+            }
+            for index in 32..<64 {
+                keys_AES_HMAC.advanced(by: index).pointee = hmacKey.advanced(by: index - 32).pointee
+            }
+            
+            // Encrypt concatted keys ============================================
+            
+            rsaEncKeysLength.pointee = RSA_public_encrypt(64, keys_AES_HMAC, keys, rsa_publicKey, RSA_PKCS1_OAEP_PADDING)
+            
+            // Update UI =========================================================
+            
+            encryptedTextViewCenteredLabel.stringValue = "Encrypted!"
+            // Starting animation
+            NSAnimationContext.beginGrouping()
+            NSAnimationContext.current().duration = 0.2
+            encryptedTextViewCenteredLabel.animator().alphaValue = 1
+            NSAnimationContext.endGrouping()
+            
+//            var outString = "== Encrypted HMAC+RSA Keys ==\n\n"
 //            
-//        } else {
+//            for index in 0..<rsaLength {
+//                outString += String(format: "%03d", keys.advanced(by: Int(index)).pointee)+"/"
+//            }
 //            
-//        }
-        
-        // Retrieve Public Key BIO
-//        let publicKey = getPublicKey()
-//        print("'\(publicKey)'")
-
-//        let publicKey = "Hello World"
-//        
-//        let str = UnsafeMutablePointer<CChar>.allocate(capacity: Int(strlen(publicKey)))
-//        str.initialize(to: 0)
-//        
-//        let bufferPointer = UnsafeBufferPointer(start: str, count: Int(strlen(publicKey)))
-//        for (index, value) in bufferPointer.enumerated() {
-//            print("value \(index): \(value)")
-//        }
-    }
-
-    func prng(keysize: Int) -> Int {
-        return 0
-    }
-    
-    //data types for c, tag, c2 should be changed
-    func encryptor(plain_text: String, key: Int) -> [String:Any] {
-        let keysize = 0
-        let key = prng(keysize: 10)
-        let IV = prng(keysize: 10)
-        var c = 0   //c = AESe(message, IV, key, CBC)
-        let key2 = prng(keysize: 10)
-        var tag = 0 //tag = HMAC(c, key2)
-        var c2 = 0  //c2 = rsa_pkb2(key || key2)
-        let jsonObject: [String: Any] = [
-            "cipher": c,
-            "IV": IV,
-            "tag": tag,
-            "c2": c2
-        ]
-        return jsonObject
-    }
-    
-    func decryptor(cipher_text: [String:Any], key_pair: Int) throws -> String {
-        let plaintext = ""
-        var tag = ""        //find in cipher_text
-        //key,key2 = rsa_prb(c2), OAEP with 2048 bit key size, load private key
-        //decrypt RSA ciphertext, recover 256 bit keys for AES and HMAC
-        var tag_new = ""    //tag' = HMAC(c, key2) SHA-256 with hmac key
-        if tag_new != tag {
-            throw tag_error.InvalidInput("error")
+            var outString = "\n\n== Encrypted Message ==\n\n"
+            
+            for index in 0..<messageLength {
+                outString += "\(out.advanced(by: Int(index)).pointee)\n"
+            }
+            
+//            var outString = "\n\n== HMAC ==\n\n"
+//            
+//            for index in 0..<Int(hmacLength.pointee) {
+//                outString += String(format: "%03d", hmac.advanced(by: Int(index)).pointee)+"\n"
+//            }
+            
+            textView_encrypted.string = outString
+            
+            copyResultButton.isEnabled = true
         }
-        //m = AESd(c, IV, key, CBC)
-        return plaintext
+    }
+    
+    func decrypt(_ sender: NSTextField, dataLength: Int,
+                 encryptedMessage encMessage: UnsafePointer<UInt8>,
+                 encryptedKeys encKeys: UnsafePointer<UInt8>,
+                 rsaEncKeysLength: UnsafePointer<Int32>,
+                 hmac: UnsafePointer<UInt8>,
+                 hmacLength: UnsafeMutablePointer<UInt32>) {
+        if let rsa_privateKey = privateRSAKey() {
+            
+            // Decrypt keys ===========================================================================
+            
+            var decrypted = UnsafeMutablePointer<UInt8>.allocate(capacity: Int(RSA_size(rsa_privateKey)))
+            decrypted.initialize(to: 0)
+            defer {
+                decrypted.deinitialize(count: Int(RSA_size(rsa_privateKey)))
+                decrypted.deallocate(capacity: Int(RSA_size(rsa_privateKey)))
+            }
+            
+            RSA_private_decrypt(rsaEncKeysLength.pointee, encKeys, decrypted, rsa_privateKey, RSA_PKCS1_OAEP_PADDING)
+            
+            // Split into HMAC and AES keys ============================================================
+            
+            // AES key decrypted
+            var aesKeyDecrypted = UnsafeMutablePointer<UInt8>.allocate(capacity: 32)
+            aesKeyDecrypted.initialize(to: 0)
+            defer {
+                aesKeyDecrypted.deinitialize(count: 32)
+                aesKeyDecrypted.deallocate(capacity: 32)
+            }
+            
+            // HMAC key decrypted
+            var hmacKeyDecrypted = UnsafeMutablePointer<UInt8>.allocate(capacity: 32)
+            hmacKeyDecrypted.initialize(to: 0)
+            defer {
+                hmacKeyDecrypted.deinitialize(count: 32)
+                hmacKeyDecrypted.deallocate(capacity: 32)
+            }
+            
+            for index in 0..<32 {
+                aesKeyDecrypted.advanced(by: index).pointee = decrypted.advanced(by: index).pointee
+            }
+            
+            for index in 32..<64 {
+                hmacKeyDecrypted.advanced(by: index-32).pointee = decrypted.advanced(by: index).pointee
+            }
+            
+//            var aesEncKeyDecrypted = UnsafeMutablePointer<AES_KEY>.allocate(capacity: MemoryLayout<AES_KEY>.size)
+//            defer {
+//                // defer block is called once execution leaves current scope
+//                aesEncKeyDecrypted.deallocate(capacity: MemoryLayout<AES_KEY>.size)
+//            }
+//            AES_set_encrypt_key(aesKeyDecrypted, 256, aesEncKeyDecrypted)
+            
+//            for index in 0..<32 {
+//                print("aesEncKeyDecrypted: \(aesKeyDecrypted.advanced(by: index).pointee)")
+//            }
+            
+            // Generate HMAC integrity tag again =======================================================
+            
+            // HMAC context
+            let hmacCtx = UnsafeMutablePointer<HMAC_CTX>.allocate(capacity: MemoryLayout<HMAC_CTX>.size)
+            defer {
+                hmacCtx.deallocate(capacity: MemoryLayout<HMAC_CTX>.size)
+            }
+            HMAC_CTX_init(hmacCtx)
+            
+            // HMAC output
+            var outMAC = UnsafeMutablePointer<UInt8>.allocate(capacity: Int(hmacLength.pointee))
+            outMAC.initialize(to: 0)
+            defer {
+                outMAC.deinitialize(count: Int(hmacLength.pointee))
+                outMAC.deallocate(capacity: Int(hmacLength.pointee))
+            }
+
+            var hmacLengthDecrypted = UnsafeMutablePointer<UInt32>.allocate(capacity: 500)
+            hmacLengthDecrypted.initialize(to: 0)
+            defer {
+                hmacLengthDecrypted.deinitialize(count: 500)
+                hmacLengthDecrypted.deallocate(capacity: 500)
+            }
+            
+            // Generate HMAC
+            HMAC(EVP_sha256(), hmacKeyDecrypted, 32, encMessage, dataLength, outMAC, hmacLengthDecrypted)
+            HMAC_CTX_cleanup(hmacCtx)
+            
+            // Verify HMAC's match
+            if hmacLength.pointee != hmacLengthDecrypted.pointee {
+                print("HMAC ERROR: The length of HMAC received does not match the length of HMAC calculated from the encrypted text received.")
+                return
+            }
+            for index in 0..<Int(hmacLength.pointee) {
+                if outMAC.advanced(by: index).pointee != hmac.advanced(by: index).pointee {
+                    print("    HMAC ERROR: HMAC received does not match the HMAC calculated from the encrypted text received.")
+                    return
+                }
+            }
+            
+            // Decrypting with AES ==================================================================
+            
+            // ... Set decrypt key
+            var aesDecKey = UnsafeMutablePointer<AES_KEY>.allocate(capacity: MemoryLayout<AES_KEY>.size)
+            defer {
+                // defer block is called once execution leaves current scope
+                aesDecKey.deallocate(capacity: MemoryLayout<AES_KEY>.size)
+            }
+            AES_set_decrypt_key(aesKeyDecrypted, 256, aesDecKey)
+            
+            // ... Decrypt with key
+            var decryptedMessage = UnsafeMutablePointer<UInt8>.allocate(capacity: dataLength)
+            decryptedMessage.initialize(to: 0)
+            defer {
+                decryptedMessage.deinitialize(count: dataLength)
+                decryptedMessage.deallocate(capacity: dataLength)
+            }
+            
+            // problem line:
+            let _ = AES_decrypt(encMessage, decryptedMessage, aesDecKey)
+            
+            // IV
+            for index in 0..<16 {
+                print("IV \(index): \(decryptedMessage.advanced(by: index).pointee)")
+            }
+            // Message
+            for index in 16..<dataLength {
+                print("Decrypted message \(index): \(decryptedMessage.advanced(by: index).pointee)")
+            }
+        }
     }
 
-    
+    // MARK: - Retrieving Keys from Bundle
     func getPublicKey() -> String {
-//        let startString = "-----BEGIN PUBLIC KEY-----"
-//        let endString   = "-----END PUBLIC KEY-----"
         if let path = Bundle.main.path(forResource: "public", ofType: "pem") {
             do {
-//                var publicKey = ""
-//                let url = URL(fileURLWithPath: path)
                 let content = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-//                if
-//                    let indexStart = content.range(of: startString),
-//                    let indexEnd = content.range(of: endString) {
-//                    let range = indexStart.upperBound..<indexEnd.lowerBound
-//                    publicKey = content.substring(with: range).trimmingCharacters(in: .whitespacesAndNewlines)
-//                }
-//                let content = try Data(contentsOf: url)
-                
                 return content//.base64EncodedString(options: .init(rawValue: 0))
             } catch { }
         }
         return ""
     }
     func getPrivateKey() -> String {
-        let startString = "-----BEGIN RSA PRIVATE KEY-----"
-        let endString   = "-----END RSA PRIVATE KEY-----"
         if let path = Bundle.main.path(forResource: "private", ofType: "pem") {
             do {
-                var privateKey = ""
                 let content = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-                if
-                    let indexStart = content.range(of: startString),
-                    let indexEnd = content.range(of: endString) {
-                    let range = indexStart.upperBound..<indexEnd.lowerBound
-                    privateKey = content.substring(with: range).trimmingCharacters(in: .whitespacesAndNewlines)
-                }
-                return privateKey
+                return content
             } catch { }
         }
         return ""
-    }
-    
-    @IBOutlet weak var howToLabel: NSTextField!
-    var encrypting = false
-    @IBAction func action_encryptCheckBox(_ sender: NSButton) {
-        if sender.title == "Encrypt" {
-            encrypting = true
-            howToLabel.stringValue = "- Press enter to encrypt -"
-        } else {
-            encrypting = false
-            howToLabel.stringValue = "- Press enter to decrypt -"
-        }
     }
 }

@@ -6,6 +6,8 @@
 //  Copyright © 2017 Harxer. All rights reserved.
 //
 
+#include <openssl/pem.h>
+
 #ifndef Enc_hpp
 #define Enc_hpp
 
@@ -19,7 +21,8 @@
 extern "C" {
 #endif
 
-    void myEncYeahWoo();
+    RSA* publicRSAKey();
+    RSA* privateRSAKey();
     
 
 #ifdef __cplusplus

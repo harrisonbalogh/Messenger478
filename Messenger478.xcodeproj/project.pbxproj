@@ -10,6 +10,7 @@
 		92AF0CD143EE260CCF11C8A8 /* libPods-Messenger478.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B79E18A5018E8A1068D5DB /* libPods-Messenger478.a */; };
 		C002E6B21F9D34F600FB46BB /* public.pem in Resources */ = {isa = PBXBuildFile; fileRef = C002E6B01F9D34F600FB46BB /* public.pem */; };
 		C065D46B1F9DD88000A29FCD /* Enc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C065D4691F9DD88000A29FCD /* Enc.cpp */; };
+		C09130BA1F9FFD4E00666D77 /* key.pem in Resources */ = {isa = PBXBuildFile; fileRef = C09130B91F9FFD4E00666D77 /* key.pem */; };
 		C0BB099A1F8D9B2500172855 /* MessengerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB09991F8D9B2500172855 /* MessengerConnection.swift */; };
 		C0BF8D941F99C3AC006401D1 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = C0BF8D931F99C3AC006401D1 /* Podfile */; };
 		C0D2C4AC1F8D895600704C12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D2C4AB1F8D895600704C12 /* AppDelegate.swift */; };
@@ -18,6 +19,7 @@
 		C0D2C4B31F8D895600704C12 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0D2C4B11F8D895600704C12 /* Main.storyboard */; };
 		C0D2C4BE1F8D895600704C12 /* Messenger478Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D2C4BD1F8D895600704C12 /* Messenger478Tests.swift */; };
 		C0D2C4C91F8D895600704C12 /* Messenger478UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D2C4C81F8D895600704C12 /* Messenger478UITests.swift */; };
+		C0EB546A1FA02BAD0033BE3E /* CodeGraveyard in Resources */ = {isa = PBXBuildFile; fileRef = C0EB54691FA02BAD0033BE3E /* CodeGraveyard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,7 @@
 		C063757C1F99A8C50086D859 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../openssl_x86_64/libssl.a; sourceTree = "<group>"; };
 		C065D4691F9DD88000A29FCD /* Enc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Enc.cpp; sourceTree = "<group>"; };
 		C065D46A1F9DD88000A29FCD /* Enc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Enc.hpp; sourceTree = "<group>"; };
+		C09130B91F9FFD4E00666D77 /* key.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = key.pem; sourceTree = "<group>"; };
 		C0BB09991F8D9B2500172855 /* MessengerConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessengerConnection.swift; sourceTree = "<group>"; };
 		C0BF8D8E1F99C233006401D1 /* Messenger478-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Messenger478-Bridging-Header.h"; sourceTree = "<group>"; };
 		C0BF8D931F99C3AC006401D1 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -61,6 +64,7 @@
 		C0D2C4C41F8D895600704C12 /* Messenger478UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Messenger478UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0D2C4C81F8D895600704C12 /* Messenger478UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messenger478UITests.swift; sourceTree = "<group>"; };
 		C0D2C4CA1F8D895600704C12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C0EB54691FA02BAD0033BE3E /* CodeGraveyard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CodeGraveyard; sourceTree = "<group>"; };
 		DEAC95EC6DBBB70C22537F78 /* Pods-Messenger478.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messenger478.debug.xcconfig"; path = "Messenger478/Pods/Target Support Files/Pods-Messenger478/Pods-Messenger478.debug.xcconfig"; sourceTree = "<group>"; };
 		E1B79E18A5018E8A1068D5DB /* libPods-Messenger478.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Messenger478.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -150,11 +154,13 @@
 				C0D2C4AF1F8D895600704C12 /* Assets.xcassets */,
 				C0D2C4AB1F8D895600704C12 /* AppDelegate.swift */,
 				C0D2C4AD1F8D895600704C12 /* ViewController.swift */,
+				C0EB54691FA02BAD0033BE3E /* CodeGraveyard */,
 				C0D2C4B11F8D895600704C12 /* Main.storyboard */,
 				C0D2C4B41F8D895600704C12 /* Info.plist */,
 				C0BF8D8E1F99C233006401D1 /* Messenger478-Bridging-Header.h */,
 				C0BF8D931F99C3AC006401D1 /* Podfile */,
 				C002E6B01F9D34F600FB46BB /* public.pem */,
+				C09130B91F9FFD4E00666D77 /* key.pem */,
 				C065D4691F9DD88000A29FCD /* Enc.cpp */,
 				C065D46A1F9DD88000A29FCD /* Enc.hpp */,
 			);
@@ -294,7 +300,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0BF8D941F99C3AC006401D1 /* Podfile in Resources */,
+				C0EB546A1FA02BAD0033BE3E /* CodeGraveyard in Resources */,
 				C0D2C4B01F8D895600704C12 /* Assets.xcassets in Resources */,
+				C09130BA1F9FFD4E00666D77 /* key.pem in Resources */,
 				C0D2C4B31F8D895600704C12 /* Main.storyboard in Resources */,
 				C002E6B21F9D34F600FB46BB /* public.pem in Resources */,
 			);
