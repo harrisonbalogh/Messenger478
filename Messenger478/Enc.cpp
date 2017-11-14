@@ -6,8 +6,15 @@
 //  Copyright © 2017 Harxer. All rights reserved.
 //
 
+#import <openssl/hmac.h>
+#import <openssl/rsa.h>
+#import <openssl/aes.h>
+#import <openssl/pem.h>
+#import <openssl/err.h>
+#import <openssl/evp.h>
+#import <openssl/rand.h>
+
 #include "Enc.hpp"
-#include <openssl/pem.h>
 #include <string.h>
 #include <iostream>
 
@@ -83,8 +90,4 @@ RSA* privateRSAKey() {
     }
     return NULL;
 }
-
-
-
-
 

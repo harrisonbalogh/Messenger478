@@ -68,30 +68,41 @@ class ViewController: NSViewController {
         }
         holdData = sender.stringValue.data(using: .utf8)!
         let data = sender.stringValue.data(using: .utf8)!
-        let message = UnsafeMutablePointer<UInt8>.allocate(capacity: 16 + data.count)
+        var length = data.count + 16
+        if length%16 == 0 {
+            length += 16 // Add fully empty block
+        } else {
+            length += (16 - (length%16)) // Fill in remaining elements in block.
+        }
+        let message = UnsafeMutablePointer<UInt8>.allocate(capacity: length)
         let dataCast = [UInt8](data)
-        message.initialize(to: 0, count: 16 + data.count)
+        message.initialize(to: 0, count: length)
         defer {
-            message.deinitialize(count: 16 + data.count)
-            message.deallocate(capacity: 16 + data.count)
+            message.deinitialize(count: length)
+            message.deallocate(capacity: length)
         }
         // Prefix the IV to the message (in bytes)
         for index in 0..<16 {
             print("IV \(index): \(iv.advanced(by: index).pointee)")
             message.advanced(by: index).pointee = iv.advanced(by: index).pointee
         }
+        // Include the bytes read from input message (to be encrypted)
         for index in 16..<(data.count+16) {
             message.advanced(by: index).pointee = dataCast[index - 16]
             print("Original message \(index): \(message.advanced(by: index).pointee)")
         }
+        // Pad message so blocks are 16 bytes or a full empty block if already divisible by 16
+        for index in (data.count+16)..<length {
+            message.advanced(by: index).pointee = 0
+        }
         
         // Store encrypted results =============================================
-        
-        var outMessage = UnsafeMutablePointer<UInt8>.allocate(capacity: 16 + data.count)
+        print("Encrypting message of length \(length) (including 16 bytes of IV).")
+        var outMessage = UnsafeMutablePointer<UInt8>.allocate(capacity: length)
         outMessage.initialize(to: 0)
         defer {
-            outMessage.deinitialize(count: 16 + data.count)
-            outMessage.deallocate(capacity: 16 + data.count)
+            outMessage.deinitialize(count: length)
+            outMessage.deallocate(capacity: length)
         }
         
         var outMAC = UnsafeMutablePointer<UInt8>.allocate(capacity: 500)
@@ -123,14 +134,14 @@ class ViewController: NSViewController {
         }
         
 
-        encrypt(sender, message: message, messageLength: 16 + data.count,
+        encrypt(sender, message: message, messageLength: length,
                 encryptedMessage: outMessage,
                 encryptedKeys: outKeys,
                 rsaEncKeysLength: rsaEncKeysLength,
                 hmac: outMAC,
                 hmacLength: hmacLength)
 
-        decrypt(sender, dataLength: 16 + data.count,
+        decrypt(sender, dataLength: length,
                 encryptedMessage: outMessage,
                 encryptedKeys: outKeys,
                 rsaEncKeysLength: rsaEncKeysLength,
@@ -146,7 +157,6 @@ class ViewController: NSViewController {
                  hmac: UnsafeMutablePointer<UInt8>,
                  hmacLength: UnsafeMutablePointer<UInt32>) {
         if let rsa_publicKey = publicRSAKey() {
-            
             // Create AES and IV keys ===========================================
             
             var aesKey = UnsafeMutablePointer<UInt8>.allocate(capacity: 32)
@@ -168,6 +178,8 @@ class ViewController: NSViewController {
             // Encrypt message =====================================================
             
             let _ = AES_encrypt(message, out, aesEncKey)
+            // Use AES_cbc_encrypt()
+            AES_cbc_encrypt(<#T##in: UnsafePointer<UInt8>!##UnsafePointer<UInt8>!#>, <#T##out: UnsafeMutablePointer<UInt8>!##UnsafeMutablePointer<UInt8>!#>, <#T##length: Int##Int#>, <#T##key: UnsafePointer<AES_KEY>!##UnsafePointer<AES_KEY>!#>, <#T##ivec: UnsafeMutablePointer<UInt8>!##UnsafeMutablePointer<UInt8>!#>, <#T##enc: Int32##Int32#>)
             
             // Generate HMAC integrity tag =========================================
             
@@ -350,6 +362,8 @@ class ViewController: NSViewController {
             }
             AES_set_decrypt_key(aesKeyDecrypted, 256, aesDecKey)
             
+            print("Preparing to decrypt message of length: \(dataLength) (including IV).")
+            
             // ... Decrypt with key
             var decryptedMessage = UnsafeMutablePointer<UInt8>.allocate(capacity: dataLength)
             decryptedMessage.initialize(to: 0)
@@ -358,16 +372,17 @@ class ViewController: NSViewController {
                 decryptedMessage.deallocate(capacity: dataLength)
             }
             
-            // problem line:
+            // problem line: AES is 16 block. Might need to specify aes_cbc_encrypt/decrypt.
+            // Definitely don't want to use ECB. 
             let _ = AES_decrypt(encMessage, decryptedMessage, aesDecKey)
             
             // IV
             for index in 0..<16 {
-                print("IV \(index): \(decryptedMessage.advanced(by: index).pointee)")
+                print("    IV Character \(index): \(decryptedMessage.advanced(by: index).pointee)")
             }
             // Message
             for index in 16..<dataLength {
-                print("Decrypted message \(index): \(decryptedMessage.advanced(by: index).pointee)")
+                print("    Decrypted message character \(index): \(decryptedMessage.advanced(by: index).pointee)")
             }
         }
     }
@@ -391,4 +406,34 @@ class ViewController: NSViewController {
         }
         return ""
     }
+    
+    // MARK: - Rewrite using OpenSSL EVP Library
+    
+    func evp_encrpyt() {
+        
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
