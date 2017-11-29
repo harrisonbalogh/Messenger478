@@ -8,3 +8,15 @@ Messenger478UITests/Info.plist
 Messenger478UITests/Messenger478UITests.swift
 
 Messenger478.xcodeproj/project.xcworkspace/xcuserdata/harrisonbalogh.xcuserdatad/UserInterfaceState.xcuserstate
+
+Messenger478/Pods/*
+
+Messenger478/Pods/Headers/Private/OpenSSL-Universal/openssl/conf.h
+
+Messenger478/Pods/Headers/Private/OpenSSL-Universal/openssl/aes.h
+
+Messenger478/Pods/Headers/Private/OpenSSL-Universal/openssl/cmac.h
+
+Messenger478/Pods/Headers/Private/OpenSSL-Universal/openssl/cms.h
+
+*.h

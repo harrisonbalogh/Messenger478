@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
         
-        MessengerConnection.testRetrieve()
+        print(Bundle.main.bundleURL.appendingPathComponent("private_rsa_id.der"))
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
