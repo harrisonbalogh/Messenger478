@@ -18,7 +18,7 @@ class MessengerConnection {
         
         dataTask?.cancel()
         
-        if var urlComponents = URLComponents(string: "https://hm478project.me/tasks/") {
+        if var urlComponents = URLComponents(string: "https://hm478project.me/messages/") {
             //urlComponents.query = "media=music&entity=song&term=someTerm"
             
             guard let url = urlComponents.url else { return }

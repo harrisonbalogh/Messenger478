@@ -20,3 +20,5 @@ Messenger478/Pods/Headers/Private/OpenSSL-Universal/openssl/cmac.h
 Messenger478/Pods/Headers/Private/OpenSSL-Universal/openssl/cms.h
 
 *.h
+
+Messenger478/Messenger478.xcworkspace/xcuserdata/harrisonbalogh.xcuserdatad/UserInterfaceState.xcuserstate

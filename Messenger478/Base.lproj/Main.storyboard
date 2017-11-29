@@ -676,7 +676,7 @@
                         </connections>
                     </window>
                     <connections>
-                        <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="MQ7-Dp-DVp"/>
+                        <segue destination="SFD-Qb-Kfh" kind="relationship" relationship="window.shadowedContentViewController" id="ud3-7i-Awu"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
