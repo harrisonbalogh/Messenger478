@@ -9,8 +9,10 @@
 /* Begin PBXBuildFile section */
 		3372215A25A83414E6446C77 /* Pods_Messenger478.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2B63F6434B8F78D50953BE /* Pods_Messenger478.framework */; };
 		C00521501FBBAB7500997B43 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = C005214F1FBBAB7500997B43 /* Message.swift */; };
-		C00521521FBBAE9B00997B43 /* ServerPullViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00521511FBBAE9B00997B43 /* ServerPullViewController.swift */; };
 		C09081D41FBC5AFF00583783 /* SwCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09081D31FBC5AFF00583783 /* SwCrypt.swift */; };
+		C0A09FCE1FD5C55A00DF44C6 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0A09FCD1FD5C55A00DF44C6 /* LoginView.xib */; };
+		C0A09FD01FD5C62600DF44C6 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A09FCF1FD5C62600DF44C6 /* MasterViewController.swift */; };
+		C0A09FD21FD5CB6300DF44C6 /* ProtocolDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A09FD11FD5CB6300DF44C6 /* ProtocolDefinitions.swift */; };
 		C0B03AFB1FD51569009D3A9E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B03AFA1FD51569009D3A9E /* LoginViewController.swift */; };
 		C0B03AFE1FD51571009D3A9E /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B03AFC1FD51571009D3A9E /* MessageViewController.swift */; };
 		C0B03B051FD51CC4009D3A9E /* MessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0B03B041FD51CC4009D3A9E /* MessageView.xib */; };
@@ -45,7 +47,6 @@
 		0B2B63F6434B8F78D50953BE /* Pods_Messenger478.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Messenger478.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82927E19A2FB422CBBD21FEC /* Pods-Messenger478.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messenger478.release.xcconfig"; path = "Messenger478/Pods/Target Support Files/Pods-Messenger478/Pods-Messenger478.release.xcconfig"; sourceTree = "<group>"; };
 		C005214F1FBBAB7500997B43 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
-		C00521511FBBAE9B00997B43 /* ServerPullViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerPullViewController.swift; sourceTree = "<group>"; };
 		C06375741F999D830086D859 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../openssl_x86_64/libcrypto.a; sourceTree = "<group>"; };
 		C06375761F99A7EE0086D859 /* libcrypto.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.1.0.0.dylib; path = ../../libcrypto.1.0.0.dylib; sourceTree = "<group>"; };
 		C063757A1F99A8B50086D859 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../openssl_i386/libcrypto.a; sourceTree = "<group>"; };
@@ -53,6 +54,9 @@
 		C073B22E1FBCD3A80032891E /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Podfile; path = /Users/harrisonbalogh/Developer/Messenger478/Messenger478/Podfile; sourceTree = "<absolute>"; };
 		C073B22F1FBCD3FA0032891E /* Messenger478-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Messenger478-Bridging-Header.h"; sourceTree = "<group>"; };
 		C09081D31FBC5AFF00583783 /* SwCrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwCrypt.swift; sourceTree = "<group>"; };
+		C0A09FCD1FD5C55A00DF44C6 /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
+		C0A09FCF1FD5C62600DF44C6 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		C0A09FD11FD5CB6300DF44C6 /* ProtocolDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolDefinitions.swift; sourceTree = "<group>"; };
 		C0B03AFA1FD51569009D3A9E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C0B03AFC1FD51571009D3A9E /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		C0B03B041FD51CC4009D3A9E /* MessageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageView.xib; sourceTree = "<group>"; };
@@ -156,12 +160,12 @@
 		C0D2C4AA1F8D895600704C12 /* Messenger478 */ = {
 			isa = PBXGroup;
 			children = (
-				C073B22F1FBCD3FA0032891E /* Messenger478-Bridging-Header.h */,
-				C0D2C4AF1F8D895600704C12 /* Assets.xcassets */,
 				C0D2C4AB1F8D895600704C12 /* AppDelegate.swift */,
 				C0D2C4AD1F8D895600704C12 /* ViewController.swift */,
-				C00521511FBBAE9B00997B43 /* ServerPullViewController.swift */,
+				C0A09FD11FD5CB6300DF44C6 /* ProtocolDefinitions.swift */,
+				C0A09FCF1FD5C62600DF44C6 /* MasterViewController.swift */,
 				C0B03AFA1FD51569009D3A9E /* LoginViewController.swift */,
+				C0A09FCD1FD5C55A00DF44C6 /* LoginView.xib */,
 				C0B03AFC1FD51571009D3A9E /* MessageViewController.swift */,
 				C0B03B041FD51CC4009D3A9E /* MessageView.xib */,
 				C09081D31FBC5AFF00583783 /* SwCrypt.swift */,
@@ -169,6 +173,8 @@
 				C0D2C4B11F8D895600704C12 /* Main.storyboard */,
 				C0D2C4B41F8D895600704C12 /* Info.plist */,
 				C073B22E1FBCD3A80032891E /* Podfile */,
+				C073B22F1FBCD3FA0032891E /* Messenger478-Bridging-Header.h */,
+				C0D2C4AF1F8D895600704C12 /* Assets.xcassets */,
 			);
 			path = Messenger478;
 			sourceTree = "<group>";
@@ -310,6 +316,7 @@
 				C0EB546A1FA02BAD0033BE3E /* CodeGraveyard in Resources */,
 				C0B03B051FD51CC4009D3A9E /* MessageView.xib in Resources */,
 				C0D2C4B01F8D895600704C12 /* Assets.xcassets in Resources */,
+				C0A09FCE1FD5C55A00DF44C6 /* LoginView.xib in Resources */,
 				C0D2C4B31F8D895600704C12 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,11 +347,15 @@
 				"${SRCROOT}/Messenger478/Pods/Target Support Files/Pods-Messenger478/Pods-Messenger478-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/JSONWebToken/JWT.framework",
+				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWT.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -391,13 +402,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0A09FD01FD5C62600DF44C6 /* MasterViewController.swift in Sources */,
 				C0B03AFB1FD51569009D3A9E /* LoginViewController.swift in Sources */,
+				C0A09FD21FD5CB6300DF44C6 /* ProtocolDefinitions.swift in Sources */,
 				C09081D41FBC5AFF00583783 /* SwCrypt.swift in Sources */,
 				C0B03AFE1FD51571009D3A9E /* MessageViewController.swift in Sources */,
 				C0D2C4AE1F8D895600704C12 /* ViewController.swift in Sources */,
 				C0BB099A1F8D9B2500172855 /* MessengerConnection.swift in Sources */,
 				C00521501FBBAB7500997B43 /* Message.swift in Sources */,
-				C00521521FBBAE9B00997B43 /* ServerPullViewController.swift in Sources */,
 				C0D2C4AC1F8D895600704C12 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

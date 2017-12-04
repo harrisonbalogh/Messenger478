@@ -9,10 +9,15 @@
 import Foundation
 import JWT
 import CryptoSwift
+import Starscream
 
 class MessengerConnection {
     
-    private static var session_jwt = ""
+    static var session_jwt = "" {
+        didSet {
+            print("JWT: \(session_jwt)")
+        }
+    }
     
     private static let defaultSession = URLSession(configuration: .default)
     private static var dataTask: URLSessionDataTask?
@@ -74,7 +79,8 @@ class MessengerConnection {
         }
     }
     
-    // API Calls
+    // MARK: - API Calls
+    
     enum User_API_Route {
         case login1
         case login2

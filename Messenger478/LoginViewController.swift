@@ -10,8 +10,8 @@ import Cocoa
 
 class LoginViewController: NSViewController {
     
-    @IBOutlet weak var widthConstraintFrame: NSLayoutConstraint!
-    @IBOutlet weak var heightConstraintFrame: NSLayoutConstraint!
+    var loginDelegate: LoginDelegate?
+
     // Used to report errors to the user on the login screen.
     @IBOutlet weak var replyLabel: NSTextField!
     @IBOutlet weak var appTitleLabel: NSTextField!
@@ -70,7 +70,7 @@ class LoginViewController: NSViewController {
                 if success {
                     self.display(message: "Login successful.")
                     DispatchQueue.main.async {
-                        self.perform(#selector(self.goToMessenger), with: nil, afterDelay: 1)
+                        self.loginDelegate?.loginWasSuccessful(for: self.usernameField.stringValue)
                     }
                 } else {
                     self.display(message: "Incorrect username or password entered.")
@@ -78,14 +78,6 @@ class LoginViewController: NSViewController {
             }
         } else {
             display(message: "You must enter a username and password.")
-        }
-    }
-    
-    // MARK: - Transition
-    
-    @objc func goToMessenger() {
-        DispatchQueue.main.async {
-            self.presentViewControllerAsModalWindow(MessageViewController(nibName: NSNib.Name("MessageView"), bundle: nil))
         }
     }
     
