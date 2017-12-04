@@ -7,101 +7,132 @@
 //
 
 import Foundation
+import JWT
+import CryptoSwift
 
 class MessengerConnection {
     
-    static let defaultSession = URLSession(configuration: .default)
+    private static var session_jwt = ""
     
-    static var dataTask: URLSessionDataTask?
+    private static let defaultSession = URLSession(configuration: .default)
+    private static var dataTask: URLSessionDataTask?
     
-    static func getAllMessages(completion: @escaping (_ output: String) -> Void) {
+    /**
+     Login user and return a JWT if username and password are correct. Returns a completion
+     handler with success of login.
+    */
+    static func login(user: String, password: String, completion: @escaping (_ success: Bool) -> Void) {
         
-        dataTask?.cancel()
-        
-        if var urlComponents = URLComponents(string: "https://hm478project.me/messages/") {
-            //urlComponents.query = "media=music&entity=song&term=someTerm"
-            
-            guard let url = urlComponents.url else { return }
-            
-            
-            dataTask = defaultSession.dataTask(with: url) { data, response, error in
-                
+        // Post username to login1
+        api_call(method: .POST, route: .login1, body: "name="+user) {
+            (json: [String: Any]) in
+            // Check login1 found username
+            if json["success"] is Int {
+                completion(false)
+                return
             }
-            
-            dataTask = defaultSession.dataTask(with: url, completionHandler: {data, response, error in
-                defer { self.dataTask = nil }
-                // 5
-                if let error = error {
-                    print("DataTask error: " + error.localizedDescription + "\n")
-                } else if let data = data,
-                    let response = response as? HTTPURLResponse,
-                    response.statusCode == 200 {
+            // Returns salt and challenge
+            guard let salt = json["salt"],
+                  let challenge = json["challenge"] else {return}
+            // Prepare HMAC with SHA256(password || salt) and challenge
+            let passSaltData: Array<UInt8> = Array((password+"\(salt)").sha256().utf8)
+            let challengeData: Array<UInt8> = Array("\(challenge)".utf8)
+            do {
+                let hmac = try HMAC(key: passSaltData, variant: .sha256).authenticate(challengeData)
+                // Send back the HMAC and username.
+                api_call(method: .POST, route: .login2, body: "name=\(user)&tag=\(hmac.toHexString())") {
+                    (json: [String: Any]) in
                     
-                    if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [Any]{
-                        completion(parse_getAllMessages(from: json!))
+                    guard let success = json["success"] as? Int else {return}
+                    if success == 1 {
+                        guard let jwt = json["token"] as? String else {return}
+                        session_jwt = jwt
+                        completion(true)
+                    } else {
+                        completion(false)
                     }
-                    
-                    // use the 'data' here. Have to convert it since its received as a byte stream
-                    //if let stringData = String(data: data, encoding: .utf8) { }
-                    
                 }
-            })
-            
-            self.dataTask?.resume()
+            } catch {}
         }
     }
     
-    static func post(message: String) {
+    /**
+        Returns a completion handler with success of registration
+    */
+    static func register(user: String, password: String, completion: @escaping (_ success: Bool) -> Void) {
         
-        if let urlComponents = URLComponents(string: "https://hm478project.me/tasks/") {
-            //urlComponents.query = "media=music&entity=song&term=someTerm"
+        // Post username and password to register
+        api_call(method: .POST, route: .register, body: "name=\(user)&password=\(password)") {
+            (json: [String: Any]) in
             
+            guard let success = json["success"] as? Int else {return}
+            if success == 1 {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
+    }
+    
+    // API Calls
+    enum User_API_Route {
+        case login1
+        case login2
+        case register
+    }
+    enum HTTP_Method {
+        case POST
+        case GET
+    }
+    private static let DOMAIN_ADDRESS = "https://www.hm478project.me/"
+    /**
+     Body should be in the form of "name=User1&password=MyPassword" etc.
+    */
+    private static func api_call(method: HTTP_Method, route: User_API_Route, body: String, completion: @escaping (_ json: [String: Any]) -> Void) {
+        // Setup
+        if let urlComponents = URLComponents(string: DOMAIN_ADDRESS + "\(route)/") {
             guard let url = urlComponents.url else { return }
-            
             var request = URLRequest(url: url)
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            request.httpMethod = "POST"
-            
-            let postString = "name=\(message)"
-            
-            request.httpBody = postString.data(using: .utf8)
-            // Hello update.
+            request.httpMethod = "\(method)"
+            request.httpBody = body.data(using: .utf8)
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                guard let data = data, error == nil else {
+                    // Network error
                     print("error=\(String(describing: error))")
                     return
                 }
-                
-                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 { // check for http errors
+                    // HTTP error
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
                     print("response = \(String(describing: response))")
                 }
-                
-                let responseString = String(data: data, encoding: .utf8)
-                print("responseString = \(String(describing: responseString))")
+                do {
+                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                        completion(json)
+                    }
+                } catch {}
             }
             task.resume()
         }
     }
-    
-    // MARK: - Parse API JSON
-    
-    private static func parse_getAllMessages(from json: [Any]) -> String {
-        
-        var buildOutput = ""
-        
-        for element in json {
-            guard let jsonDict = element as? [String: Any] else {break}
-            if
-                let id = jsonDict["_id"] as? String,
-                let content = jsonDict["name"] as? String,
-                let date = jsonDict["Created_date"] as? String
-            {
-                buildOutput += id + " - ( " + date + ") " + content + "\n\n"
-            }
-        }
-        
-        return buildOutput
-    }
-    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
