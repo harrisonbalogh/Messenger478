@@ -32,42 +32,48 @@ class MessageViewController: NSViewController, WebSocketDelegate {
     }
     
     @IBAction func action_send(_ sender: NSTextField) {
-//        if socket != nil {
-//            socket.emit("received", ["content": "someContent"]);
-//        }
+        if socket != nil {
+            socket.emit("message", sender.stringValue);
+            sender.stringValue = ""
+        }
     }
     
     // MARK: - Web Socket Delegate Functions
-    var socket: WebSocketClient!
-//    var socket: SocketIOClient!
+//    var socket: WebSocketClient!
+    var socket: SocketIOClient!
+    var manager: SocketManager!
     
-    private let DOMAIN_ADDRESS = "https://www.hm478project.me/"
+    private let DOMAIN_ADDRESS = "https://www.hm478project.me/messages"
     /**
      
      */
     private func connectSocket() {
-        socket = WebSocket(url: URL(string: DOMAIN_ADDRESS)!)
-        socket.enabledSSLCipherSuites = [
-            TLS_ECDH_ECDSA_WITH_AES_256_GCM_SHA384,
-            TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-            TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
-            TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        ]
-        socket.delegate = self
-        socket.connect()
+//        socket = WebSocket(url: URL(string: DOMAIN_ADDRESS)!)
+//        socket.enabledSSLCipherSuites = [
+//            TLS_ECDH_ECDSA_WITH_AES_256_GCM_SHA384,
+//            TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+//            TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+//            TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+//        ]
+//        socket.delegate = self
+//        socket.connect()
         
-        
-//        let manager = SocketManager(socketURL: URL(string: DOMAIN_ADDRESS)!, config: [.log(true), .compress])
-//        socket = manager.defaultSocket
-//
+        manager = SocketManager(socketURL: URL(string: DOMAIN_ADDRESS)!, config: [.log(true), .compress]) // .extraHeaders(["token": MessengerConnection.session_jwt])
+        socket = manager.defaultSocket
+
 //        socket.on("success") { data, ack in
 //            print("Succes??!?!")
 //        }
 
-//        socket.on(clientEvent: .connect) {data, ack in
-//            print("socket connected")
-//            self.socket.emit("authenticate", ["token": MessengerConnection.session_jwt]) //send the jwt
-//        }
+        socket.on(clientEvent: .connect) {data, ack in
+            print("================== SOCKET CONNECTED ==================")
+            self.socket.emit("authenticate", ["token": MessengerConnection.session_jwt]) //send the jwt
+        }
+        socket.on("response") { data, ack in
+            DispatchQueue.main.async {
+                self.messageTextView.string += String(describing: "\(data)\n")
+            }
+        }
 //        socket.on("message") { data, ack in
 //            DispatchQueue.main.async {
 //                self.messageTextView.string += String(describing: data)

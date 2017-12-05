@@ -33,12 +33,11 @@ class MessengerConnection {
             (json: [String: Any]) in
             // Check login1 found username
             if json["success"] is Int {
-                completion(false)
-                return
+                completion(false); return
             }
             // Returns salt and challenge
             guard let salt = json["salt"],
-                  let challenge = json["challenge"] else {return}
+                let challenge = json["challenge"] else {completion(false); return}
             // Prepare HMAC with SHA256(password || salt) and challenge
             let passSaltData: Array<UInt8> = Array((password+"\(salt)").sha256().utf8)
             let challengeData: Array<UInt8> = Array("\(challenge)".utf8)
@@ -57,7 +56,7 @@ class MessengerConnection {
                         completion(false)
                     }
                 }
-            } catch {}
+            } catch {completion(false)}
         }
     }
     
@@ -70,7 +69,7 @@ class MessengerConnection {
         api_call(method: .POST, route: .register, body: "name=\(user)&password=\(password)") {
             (json: [String: Any]) in
             
-            guard let success = json["success"] as? Int else {return}
+            guard let success = json["success"] as? Int else {completion(false); return}
             if success == 1 {
                 completion(true)
             } else {
