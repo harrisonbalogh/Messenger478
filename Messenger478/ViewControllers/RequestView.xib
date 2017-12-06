@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="box content view" minToolsVersion="7.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="RequestViewController" customModule="Messenger478" customModuleProvider="target">
+            <connections>
+                <outlet property="acceptButton" destination="OTu-aM-rvv" id="ZCW-ne-lJL"/>
+                <outlet property="declienButton" destination="f6h-pm-TXi" id="7pC-fK-pBS"/>
+                <outlet property="infoTextField" destination="irY-6P-FZX" id="M2h-N8-g1Z"/>
+                <outlet property="usernameTextField" destination="OTQ-cV-rSY" id="FEy-Mc-t7h"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="169" height="65"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <box boxType="custom" borderWidth="0.0" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="gtC-QA-rAv">
+                    <rect key="frame" x="0.0" y="0.0" width="169" height="65"/>
+                    <view key="contentView" id="YSV-og-nXH">
+                        <rect key="frame" x="0.0" y="0.0" width="169" height="65"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="751" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="OTQ-cV-rSY">
+                                <rect key="frame" x="10" y="36" width="35" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="User" id="Hpp-dd-Sgh">
+                                    <font key="font" metaFont="systemBold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="irY-6P-FZX">
+                                <rect key="frame" x="45" y="36" width="114" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="would like to chat." id="oeY-tu-lpH">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f6h-pm-TXi">
+                                <rect key="frame" x="29" y="11" width="54" height="17"/>
+                                <buttonCell key="cell" type="inline" title="Decline" bezelStyle="inline" alignment="center" borderStyle="border" focusRingType="none" inset="2" id="hf1-XJ-Ks1">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystemBold"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="action_decline:" target="-2" id="khI-X7-ual"/>
+                                </connections>
+                            </button>
+                            <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OTu-aM-rvv">
+                                <rect key="frame" x="87" y="11" width="52" height="17"/>
+                                <buttonCell key="cell" type="inline" title="Accept" bezelStyle="inline" alignment="center" borderStyle="border" focusRingType="none" inset="2" id="ons-zH-4Os">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystemBold"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="action_accept:" target="-2" id="fJF-cU-6sQ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="OTQ-cV-rSY" firstAttribute="top" secondItem="YSV-og-nXH" secondAttribute="top" constant="12" id="6RF-0d-xPj"/>
+                            <constraint firstItem="f6h-pm-TXi" firstAttribute="top" secondItem="OTQ-cV-rSY" secondAttribute="bottom" constant="8" id="FN3-Af-M11"/>
+                            <constraint firstItem="OTQ-cV-rSY" firstAttribute="leading" secondItem="YSV-og-nXH" secondAttribute="leading" constant="12" id="MO9-Lo-CTN"/>
+                            <constraint firstAttribute="bottom" secondItem="f6h-pm-TXi" secondAttribute="bottom" constant="12" id="PPM-2E-Q35"/>
+                            <constraint firstItem="OTu-aM-rvv" firstAttribute="top" secondItem="OTQ-cV-rSY" secondAttribute="bottom" constant="8" id="Z3W-xy-Q6r"/>
+                            <constraint firstItem="irY-6P-FZX" firstAttribute="centerY" secondItem="OTQ-cV-rSY" secondAttribute="centerY" id="ZPV-Az-5r5"/>
+                            <constraint firstItem="OTu-aM-rvv" firstAttribute="leading" secondItem="YSV-og-nXH" secondAttribute="centerX" constant="2" id="fqk-4a-tGM"/>
+                            <constraint firstItem="irY-6P-FZX" firstAttribute="leading" secondItem="OTQ-cV-rSY" secondAttribute="trailing" constant="4" id="gxs-gF-Veg"/>
+                            <constraint firstAttribute="trailing" secondItem="irY-6P-FZX" secondAttribute="trailing" constant="12" id="mPS-jh-Jna"/>
+                            <constraint firstItem="f6h-pm-TXi" firstAttribute="trailing" secondItem="YSV-og-nXH" secondAttribute="centerX" constant="-2" id="uRw-5A-EML"/>
+                        </constraints>
+                    </view>
+                </box>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="gtC-QA-rAv" secondAttribute="bottom" id="AzR-pV-aco"/>
+                <constraint firstAttribute="trailing" secondItem="gtC-QA-rAv" secondAttribute="trailing" id="eY4-f4-cI6"/>
+                <constraint firstItem="gtC-QA-rAv" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="fL5-YJ-Phu"/>
+                <constraint firstItem="gtC-QA-rAv" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="jG5-lK-Tcl"/>
+            </constraints>
+            <point key="canvasLocation" x="-18" y="168.5"/>
+        </customView>
+    </objects>
+</document>

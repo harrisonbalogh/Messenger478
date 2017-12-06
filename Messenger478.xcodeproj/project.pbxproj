@@ -18,11 +18,12 @@
 		C0B03B051FD51CC4009D3A9E /* MessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0B03B041FD51CC4009D3A9E /* MessageView.xib */; };
 		C0BB099A1F8D9B2500172855 /* MessengerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB09991F8D9B2500172855 /* MessengerConnection.swift */; };
 		C0D2C4AC1F8D895600704C12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D2C4AB1F8D895600704C12 /* AppDelegate.swift */; };
-		C0D2C4AE1F8D895600704C12 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D2C4AD1F8D895600704C12 /* ViewController.swift */; };
 		C0D2C4B01F8D895600704C12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0D2C4AF1F8D895600704C12 /* Assets.xcassets */; };
 		C0D2C4B31F8D895600704C12 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0D2C4B11F8D895600704C12 /* Main.storyboard */; };
 		C0D2C4BE1F8D895600704C12 /* Messenger478Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D2C4BD1F8D895600704C12 /* Messenger478Tests.swift */; };
 		C0D2C4C91F8D895600704C12 /* Messenger478UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D2C4C81F8D895600704C12 /* Messenger478UITests.swift */; };
+		C0D591881FD8667C002E5487 /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D591861FD8667C002E5487 /* RequestViewController.swift */; };
+		C0D591891FD8667C002E5487 /* RequestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0D591871FD8667C002E5487 /* RequestView.xib */; };
 		C0EB546A1FA02BAD0033BE3E /* CodeGraveyard in Resources */ = {isa = PBXBuildFile; fileRef = C0EB54691FA02BAD0033BE3E /* CodeGraveyard */; };
 /* End PBXBuildFile section */
 
@@ -63,7 +64,6 @@
 		C0BB09991F8D9B2500172855 /* MessengerConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessengerConnection.swift; sourceTree = "<group>"; };
 		C0D2C4A81F8D895600704C12 /* Messenger478.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messenger478.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0D2C4AB1F8D895600704C12 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C0D2C4AD1F8D895600704C12 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C0D2C4AF1F8D895600704C12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C0D2C4B21F8D895600704C12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C0D2C4B41F8D895600704C12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -73,6 +73,8 @@
 		C0D2C4C41F8D895600704C12 /* Messenger478UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Messenger478UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0D2C4C81F8D895600704C12 /* Messenger478UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messenger478UITests.swift; sourceTree = "<group>"; };
 		C0D2C4CA1F8D895600704C12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C0D591861FD8667C002E5487 /* RequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestViewController.swift; sourceTree = "<group>"; };
+		C0D591871FD8667C002E5487 /* RequestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RequestView.xib; sourceTree = "<group>"; };
 		C0EB54691FA02BAD0033BE3E /* CodeGraveyard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CodeGraveyard; sourceTree = "<group>"; };
 		DEAC95EC6DBBB70C22537F78 /* Pods-Messenger478.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messenger478.debug.xcconfig"; path = "Messenger478/Pods/Target Support Files/Pods-Messenger478/Pods-Messenger478.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,9 +117,25 @@
 		C00AC62A1FD78505003D5309 /* Encryption */ = {
 			isa = PBXGroup;
 			children = (
+				C09081D31FBC5AFF00583783 /* SwCrypt.swift */,
 				C00AC62B1FD7865A003D5309 /* EncryptionModule.swift */,
 			);
 			path = Encryption;
+			sourceTree = "<group>";
+		};
+		C00AC62D1FD7869E003D5309 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C0A09FD11FD5CB6300DF44C6 /* ProtocolDefinitions.swift */,
+				C0A09FCF1FD5C62600DF44C6 /* MasterViewController.swift */,
+				C0B03AFA1FD51569009D3A9E /* LoginViewController.swift */,
+				C0A09FCD1FD5C55A00DF44C6 /* LoginView.xib */,
+				C0B03AFC1FD51571009D3A9E /* MessageViewController.swift */,
+				C0B03B041FD51CC4009D3A9E /* MessageView.xib */,
+				C0D591861FD8667C002E5487 /* RequestViewController.swift */,
+				C0D591871FD8667C002E5487 /* RequestView.xib */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		C06375731F999D830086D859 /* Frameworks */ = {
@@ -166,20 +184,13 @@
 			isa = PBXGroup;
 			children = (
 				C0D2C4AB1F8D895600704C12 /* AppDelegate.swift */,
-				C0D2C4AD1F8D895600704C12 /* ViewController.swift */,
-				C0A09FD11FD5CB6300DF44C6 /* ProtocolDefinitions.swift */,
-				C0A09FCF1FD5C62600DF44C6 /* MasterViewController.swift */,
-				C0B03AFA1FD51569009D3A9E /* LoginViewController.swift */,
-				C0A09FCD1FD5C55A00DF44C6 /* LoginView.xib */,
-				C0B03AFC1FD51571009D3A9E /* MessageViewController.swift */,
-				C0B03B041FD51CC4009D3A9E /* MessageView.xib */,
-				C09081D31FBC5AFF00583783 /* SwCrypt.swift */,
 				C0EB54691FA02BAD0033BE3E /* CodeGraveyard */,
 				C0D2C4B11F8D895600704C12 /* Main.storyboard */,
 				C0D2C4B41F8D895600704C12 /* Info.plist */,
 				C073B22E1FBCD3A80032891E /* Podfile */,
 				C073B22F1FBCD3FA0032891E /* Messenger478-Bridging-Header.h */,
 				C0D2C4AF1F8D895600704C12 /* Assets.xcassets */,
+				C00AC62D1FD7869E003D5309 /* ViewControllers */,
 				C0BB09981F8D9B0B00172855 /* Connection */,
 				C00AC62A1FD78505003D5309 /* Encryption */,
 			);
@@ -324,6 +335,7 @@
 				C0B03B051FD51CC4009D3A9E /* MessageView.xib in Resources */,
 				C0D2C4B01F8D895600704C12 /* Assets.xcassets in Resources */,
 				C0A09FCE1FD5C55A00DF44C6 /* LoginView.xib in Resources */,
+				C0D591891FD8667C002E5487 /* RequestView.xib in Resources */,
 				C0D2C4B31F8D895600704C12 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -414,7 +426,7 @@
 				C0A09FD21FD5CB6300DF44C6 /* ProtocolDefinitions.swift in Sources */,
 				C09081D41FBC5AFF00583783 /* SwCrypt.swift in Sources */,
 				C0B03AFE1FD51571009D3A9E /* MessageViewController.swift in Sources */,
-				C0D2C4AE1F8D895600704C12 /* ViewController.swift in Sources */,
+				C0D591881FD8667C002E5487 /* RequestViewController.swift in Sources */,
 				C00AC62C1FD7865A003D5309 /* EncryptionModule.swift in Sources */,
 				C0BB099A1F8D9B2500172855 /* MessengerConnection.swift in Sources */,
 				C0D2C4AC1F8D895600704C12 /* AppDelegate.swift in Sources */,

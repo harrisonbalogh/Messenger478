@@ -7,8 +7,14 @@
 //
 
 import Foundation
+import Cocoa
 
 protocol LoginDelegate {
     func loginWasSuccessful(for username: String)
     func logout()
+}
+
+protocol RequestDelegate {
+    func requestApproved(for name: String)
+    func requestDeclined(for name: String)
 }

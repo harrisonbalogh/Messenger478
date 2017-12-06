@@ -7,3 +7,131 @@
 //
 
 import Foundation
+import CryptoSwift
+
+class EncryptionModule {
+    
+    // MARK: - Export Public Key
+    
+    /**
+     Creates an exportable version of user's public key, effectively converting
+     a public RSA SecKey object into a CFData object unless an error occurs.
+     
+     - returns: CFData object in PCKS#1 format converted from public 2048-bit
+     RSA key or nil if an error occurs.
+    */
+    static func exportPublicKey() -> CFData? {
+        guard let data = SecKeyCopyExternalRepresentation(publicKeyRSA, nil) else {return nil}
+        return data
+    }
+    
+    // MARK: - Security Transforms
+    
+    /**
+     Encrypts the provided CFData using AES-256 bit encryption in
+     GCM mode. The AES key itself is generated and encrypted by the
+     RSA public key and then packaged together with the digest data.
+     There must be a valid public RSA key already received from the
+     recepient or this will return nil.
+     
+     - parameters:
+        - data: The data to be encrypted as a CFData object.
+     
+     - returns:
+     Digest data encrypted from the provided text or nil if
+     an error occurred.
+     */
+    static func encrypt(data: CFData) -> CFData? {
+        let encryptionAlgorithm: SecKeyAlgorithm = .rsaEncryptionOAEPSHA256AESGCM
+        guard let publicKey = MessengerConnection.recipeintPublicKeyRSA else {return nil}
+        guard SecKeyIsAlgorithmSupported(publicKey, .encrypt, encryptionAlgorithm) else {return nil}
+        guard let cipherText = SecKeyCreateEncryptedData(publicKey, encryptionAlgorithm, data, nil) else {return nil}
+        return cipherText
+    }
+    
+    /**
+     Decrypts the provided CFData that was encrypted with AES-256
+     it encrpytion in GCM mode. Requires the private key from the
+     public key used in encryption or returns nil.
+     
+     - parameters:
+        - data: The data to be decrypted as a CFData object.
+     
+     - returns:
+     Plain text data from the encrypted data.
+    */
+    static func decrypt(data: CFData) -> CFData? {
+        let decryptionAlgorithm: SecKeyAlgorithm = .rsaEncryptionOAEPSHA256AESGCM
+        guard SecKeyIsAlgorithmSupported(privateKeyRSA, .decrypt, decryptionAlgorithm) else {return nil}
+        guard let plainText = SecKeyCreateDecryptedData(privateKeyRSA, decryptionAlgorithm, data, nil) else {return nil}
+        return plainText
+    }
+    
+    /**
+     Produce a authentication signature from the provided digest. Uses RSA_SHA256 signing algorithm.
+     
+     - parameters:
+        - digest: The RSA encrypted form of a message.
+     
+     - returns:
+     CFData object representing a digital signature from the provided digest, or nil
+     if an error occurred.
+    */
+    static func signature(for digest: CFData) -> CFData? {
+        let signAlgorithm: SecKeyAlgorithm = .rsaSignatureDigestPKCS1v15SHA256
+        guard SecKeyIsAlgorithmSupported(privateKeyRSA, .sign, signAlgorithm) else { return nil }
+        guard let signature = SecKeyCreateSignature(privateKeyRSA, signAlgorithm, digest, nil) else { return nil }
+        return signature
+    }
+    
+    // MARK: - RSA Keys
+    
+    private static let TAG_PRIVATE = "com.messenger478.tagPrivate"
+    private static let TAG_PUBLIC  = "com.messenger478.tagPublic"
+    
+    private static var cached_publicKeyRSA: SecKey?
+    private static var publicKeyRSA: SecKey {
+        get {
+            if cached_publicKeyRSA == nil {
+                GenerateKeyPairRSA()
+            }
+            return cached_publicKeyRSA!
+        }
+    }
+    private static var cached_privateKeyRSA: SecKey?
+    private static var privateKeyRSA: SecKey {
+        get {
+            if cached_privateKeyRSA == nil {
+                GenerateKeyPairRSA()
+            }
+            return cached_privateKeyRSA!
+        }
+    }
+    
+    /**
+     Fills the publicKeyRSA and privateKeyRSA caches with a 2048-bit RSA key pair.
+    */
+    private static func GenerateKeyPairRSA() {
+        let privateKeyAttr: [NSString: Any] = [
+            kSecAttrIsPermanent: false,
+            kSecAttrApplicationTag: TAG_PRIVATE
+        ]
+        let publicKeyAttr: [NSString: Any] = [
+            kSecAttrIsPermanent: false,
+            kSecAttrApplicationTag: TAG_PUBLIC
+        ]
+        let parameters: [String: Any] = [
+            kSecAttrKeyType as String: kSecAttrKeyTypeRSA,
+            kSecAttrKeySizeInBits as String: 2048,
+            kSecPrivateKeyAttrs as String: privateKeyAttr,
+            kSecPublicKeyAttrs as String: publicKeyAttr
+        ]
+        
+        let status = SecKeyGeneratePair(parameters as CFDictionary, &cached_publicKeyRSA, &cached_privateKeyRSA)
+        
+        if status != noErr {
+            print("SecKeyGeneratePair Error! \(status.description)")
+            return
+        }
+    }
+}
