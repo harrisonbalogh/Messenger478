@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3372215A25A83414E6446C77 /* Pods_Messenger478.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2B63F6434B8F78D50953BE /* Pods_Messenger478.framework */; };
 		C00AC62C1FD7865A003D5309 /* EncryptionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00AC62B1FD7865A003D5309 /* EncryptionModule.swift */; };
-		C09081D41FBC5AFF00583783 /* SwCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09081D31FBC5AFF00583783 /* SwCrypt.swift */; };
 		C0A09FCE1FD5C55A00DF44C6 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0A09FCD1FD5C55A00DF44C6 /* LoginView.xib */; };
 		C0A09FD01FD5C62600DF44C6 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A09FCF1FD5C62600DF44C6 /* MasterViewController.swift */; };
 		C0A09FD21FD5CB6300DF44C6 /* ProtocolDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A09FD11FD5CB6300DF44C6 /* ProtocolDefinitions.swift */; };
@@ -54,7 +53,6 @@
 		C063757C1F99A8C50086D859 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../openssl_x86_64/libssl.a; sourceTree = "<group>"; };
 		C073B22E1FBCD3A80032891E /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Podfile; path = /Users/harrisonbalogh/Developer/Messenger478/Messenger478/Podfile; sourceTree = "<absolute>"; };
 		C073B22F1FBCD3FA0032891E /* Messenger478-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Messenger478-Bridging-Header.h"; sourceTree = "<group>"; };
-		C09081D31FBC5AFF00583783 /* SwCrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwCrypt.swift; sourceTree = "<group>"; };
 		C0A09FCD1FD5C55A00DF44C6 /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
 		C0A09FCF1FD5C62600DF44C6 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		C0A09FD11FD5CB6300DF44C6 /* ProtocolDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolDefinitions.swift; sourceTree = "<group>"; };
@@ -117,7 +115,6 @@
 		C00AC62A1FD78505003D5309 /* Encryption */ = {
 			isa = PBXGroup;
 			children = (
-				C09081D31FBC5AFF00583783 /* SwCrypt.swift */,
 				C00AC62B1FD7865A003D5309 /* EncryptionModule.swift */,
 			);
 			path = Encryption;
@@ -424,7 +421,6 @@
 				C0A09FD01FD5C62600DF44C6 /* MasterViewController.swift in Sources */,
 				C0B03AFB1FD51569009D3A9E /* LoginViewController.swift in Sources */,
 				C0A09FD21FD5CB6300DF44C6 /* ProtocolDefinitions.swift in Sources */,
-				C09081D41FBC5AFF00583783 /* SwCrypt.swift in Sources */,
 				C0B03AFE1FD51571009D3A9E /* MessageViewController.swift in Sources */,
 				C0D591881FD8667C002E5487 /* RequestViewController.swift in Sources */,
 				C00AC62C1FD7865A003D5309 /* EncryptionModule.swift in Sources */,

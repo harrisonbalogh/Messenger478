@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CryptoSwift
 
 class EncryptionModule {
     
@@ -15,14 +14,14 @@ class EncryptionModule {
     
     /**
      Creates an exportable version of user's public key, effectively converting
-     a public RSA SecKey object into a CFData object unless an error occurs.
+     a public RSA SecKey object into a String unless an error occurs.
      
-     - returns: CFData object in PCKS#1 format converted from public 2048-bit
-     RSA key or nil if an error occurs.
+     - returns: String object converted from CFData in PCKS#1 format which was
+     converted from a public 2048-bit RSA key or nil if an error occurs.
     */
-    static func exportPublicKey() -> CFData? {
+    static func exportPublicKey() -> Data? {
         guard let data = SecKeyCopyExternalRepresentation(publicKeyRSA, nil) else {return nil}
-        return data
+        return data as NSData as Data
     }
     
     // MARK: - Security Transforms
@@ -41,12 +40,13 @@ class EncryptionModule {
      Digest data encrypted from the provided text or nil if
      an error occurred.
      */
-    static func encrypt(data: CFData) -> CFData? {
+    static func encrypt(text: String) -> Data? {
+        let data = text.data(using: .utf8)! as NSData as CFData
         let encryptionAlgorithm: SecKeyAlgorithm = .rsaEncryptionOAEPSHA256AESGCM
         guard let publicKey = MessengerConnection.recipeintPublicKeyRSA else {return nil}
         guard SecKeyIsAlgorithmSupported(publicKey, .encrypt, encryptionAlgorithm) else {return nil}
         guard let cipherText = SecKeyCreateEncryptedData(publicKey, encryptionAlgorithm, data, nil) else {return nil}
-        return cipherText
+        return cipherText as NSData as Data
     }
     
     /**
@@ -60,15 +60,16 @@ class EncryptionModule {
      - returns:
      Plain text data from the encrypted data.
     */
-    static func decrypt(data: CFData) -> CFData? {
+    static func decrypt(data: Data) -> String? {
+        let conv = data as NSData as CFData
         let decryptionAlgorithm: SecKeyAlgorithm = .rsaEncryptionOAEPSHA256AESGCM
         guard SecKeyIsAlgorithmSupported(privateKeyRSA, .decrypt, decryptionAlgorithm) else {return nil}
-        guard let plainText = SecKeyCreateDecryptedData(privateKeyRSA, decryptionAlgorithm, data, nil) else {return nil}
-        return plainText
+        guard let plainText = SecKeyCreateDecryptedData(privateKeyRSA, decryptionAlgorithm, conv, nil) else {return nil}
+        return String(data: (plainText as NSData as Data), encoding: .utf8)
     }
     
     /**
-     Produce a authentication signature from the provided digest. Uses RSA_SHA256 signing algorithm.
+     Produce an authentication signature from the provided digest. Uses RSA_SHA256 signing algorithm.
      
      - parameters:
         - digest: The RSA encrypted form of a message.
@@ -114,11 +115,11 @@ class EncryptionModule {
     private static func GenerateKeyPairRSA() {
         let privateKeyAttr: [NSString: Any] = [
             kSecAttrIsPermanent: false,
-            kSecAttrApplicationTag: TAG_PRIVATE
+            kSecAttrApplicationTag: TAG_PRIVATE.data(using: .utf8)!
         ]
         let publicKeyAttr: [NSString: Any] = [
             kSecAttrIsPermanent: false,
-            kSecAttrApplicationTag: TAG_PUBLIC
+            kSecAttrApplicationTag: TAG_PUBLIC.data(using: .utf8)!
         ]
         let parameters: [String: Any] = [
             kSecAttrKeyType as String: kSecAttrKeyTypeRSA,

@@ -8,17 +8,25 @@
 
 import Foundation
 import JWT
-import CryptoSwift
 import Starscream
+import CryptoSwift
 
 class MessengerConnection {
+
+    static var session_jwt = ""
     
-    static var session_jwt = "" {
-        didSet {
-            print("JWT: \(session_jwt)")
-        }
+    static var recipeintPublicKeyRSA: SecKey?
+    
+    static func storeRecipeintPublicKeyRSA(from data: Data) {
+        
+        let conv = data as NSData as CFData
+        let options: [String: Any] = [kSecAttrKeyType as String: kSecAttrKeyTypeRSA,
+                                      kSecAttrKeyClass as String: kSecAttrKeyClassPublic,
+                                      kSecAttrKeySizeInBits as String : 2048]
+        guard let key = SecKeyCreateWithData(conv, options as CFDictionary, nil) else {return}
+        recipeintPublicKeyRSA = key
     }
-    
+
     private static let defaultSession = URLSession(configuration: .default)
     private static var dataTask: URLSessionDataTask?
     

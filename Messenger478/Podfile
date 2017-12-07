@@ -2,10 +2,8 @@ platform :osx, '10.12'
 use_frameworks!
 
 target 'Messenger478' do
-    pod 'OpenSSL-Universal', '~> 1.0'
     pod 'JSONWebToken', '~> 2.2.0'
-    pod 'CryptoSwift', :git => "https://github.com/krzyzanowskim/CryptoSwift", :branch => "develop"
     pod 'Socket.IO-Client-Swift', '~> 13.1.0'
-    pod 'Starscream', '~> 3.0.2'
+    pod 'CryptoSwift', '~> 0.7.1'
     project '/Users/harrisonbalogh/Developer/Messenger478/Messenger478.xcodeproj'
 end
